@@ -1,52 +1,39 @@
-import 'dart:convert';
-
 import 'package:appsonair_flutter_appremark/app_remark_platform_interface.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class AppRemarkMethodChannel extends AppRemarkPlatformInterface {
-  late BuildContext context;
-
   @visibleForTesting
-  final methodChannel = const MethodChannel('isUpdateAvailable');
+  final methodChannel = const MethodChannel('appsOnAirAppRemark');
 
   @override
-  Future<void> initMethod(
+  Future<void> initialize(
     BuildContext context, {
-    bool showNativeUI = true,
-    Widget? Function(Map<String, dynamic> response)? customWidget,
+    bool shakeGestureEnable = true,
+    Map<String, dynamic> options = const {},
   }) async {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      this.context = context;
-
-      final appUpdateResponse = await _check(showNativeUI);
-      if (customWidget != null) {
-        final widget = customWidget.call(appUpdateResponse);
-
-        ///custom ui dialog
-        if (!showNativeUI && widget != null) {
-          //your call
-        }
-      }
-    });
+    try {
+      await methodChannel.invokeMethod('initializeAppRemark', {
+        "shakeGestureEnable": shakeGestureEnable,
+        'options': options,
+      });
+    } on PlatformException catch (e) {
+      debugPrint(
+          'Failed to initialize AppsOnAir AppRemarkSDK! ${e.message ?? ''}');
+    }
   }
 
-  Future<Map<String, dynamic>> _check(bool showNativeUI) async {
-    String updateCheck = '';
+  @override
+  Future<void> addRemark(
+    BuildContext context, {
+    Map<String, dynamic> extraPayload = const {},
+  }) async {
     try {
-      final result = await methodChannel
-          .invokeMethod('isUpdateAvailable', {"showNativeUI": showNativeUI});
-      if (result != null && result is String) {
-        return Map<String, dynamic>.from(json.decode(result));
-      }
-      return Map<String, dynamic>.from(((result ?? {}) as Map));
+      await methodChannel.invokeMethod('addAppRemark', {
+        'extraPayload': extraPayload,
+      });
     } on PlatformException catch (e) {
-      updateCheck = "Failed to check for update: '${e.message}'.";
+      debugPrint('Failed to implement addRemark()! ${e.message ?? ''}');
     }
-    if (kDebugMode) {
-      print(updateCheck);
-    }
-    return {"exception": updateCheck};
   }
 }

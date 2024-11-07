@@ -16,33 +16,26 @@ class AppsonairFlutterAppremarkPlugin : FlutterPlugin, MethodCallHandler, Activi
     private lateinit var activity: Activity
 
     override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
-        channel = MethodChannel(flutterPluginBinding.binaryMessenger, "isUpdateAvailable")
+        channel = MethodChannel(flutterPluginBinding.binaryMessenger, "appsOnAirAppRemark")
         channel.setMethodCallHandler(this)
     }
 
     override fun onMethodCall(call: MethodCall, result: Result) {
-        if (call.method == "isUpdateAvailable") {
-            val arguments: Map<String, Any> = call.arguments as? Map<String, Any> ?: emptyMap()
-            var options: Map<String, Any> = emptyMap()
+        if (call.method == "initializeAppRemark") {
+            var shakeGestureEnable: Boolean =
+                call.argument<Boolean>("shakeGestureEnable") as Boolean
 
-            if (!arguments.isEmpty()) {
-                options = arguments
-            }
+            var options: Map<String, Any> =
+                call.argument<Map<String, Any>>("options") as Map<String, Any>
 
-//      AppSyncService.sync(
-//        activity,
-//        options = options,
-//        callBack =
-//        object : UpdateCallBack {
-//          override fun onSuccess(response: String?) {
-//            result.success(response)
-//          }
-//
-//          override fun onFailure(message: String?) {
-//            result.success(message)
-//          }
-//        },
-//      )
+            //initialize method call
+
+        } else if (call.method == "addAppRemark") {
+            var extraPayload: Map<String, Any> =
+                call.argument<Map<String, Any>>("extraPayload") as Map<String, Any>
+
+            //add remark method call
+
         } else {
             result.notImplemented()
         }

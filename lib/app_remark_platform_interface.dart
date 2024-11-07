@@ -17,11 +17,18 @@ abstract class AppRemarkPlatformInterface extends PlatformInterface {
     _instance = instance;
   }
 
-  Future<void> initMethod(
+  Future<void> initialize(
     BuildContext context, {
-    bool showNativeUI = true,
-    Widget? Function(Map<String, dynamic>)? customWidget,
+    bool shakeGestureEnable = true,
+    Map<String, dynamic> options = const {},
   }) {
-    throw UnimplementedError('platformVersion() has not been implemented.');
+    throw UnimplementedError('initialize() has not been implemented.');
+  }
+
+  Future<void> addRemark(
+    BuildContext context, {
+    Map<String, dynamic> extraPayload = const {},
+  }) {
+    throw UnimplementedError('addRemark() has not been implemented.');
   }
 }
