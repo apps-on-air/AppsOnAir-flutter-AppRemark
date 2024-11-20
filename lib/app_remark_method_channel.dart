@@ -12,15 +12,17 @@ class AppRemarkMethodChannel extends AppRemarkPlatformInterface {
     bool shakeGestureEnable = true,
     Map<String, dynamic> options = const {},
   }) async {
-    try {
-      await methodChannel.invokeMethod('initializeAppRemark', {
-        "shakeGestureEnable": shakeGestureEnable,
-        'options': options,
-      });
-    } on PlatformException catch (e) {
-      debugPrint(
-          'Failed to initialize AppsOnAir AppRemarkSDK! ${e.message ?? ''}');
-    }
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      try {
+        await methodChannel.invokeMethod('initializeAppRemark', {
+          "shakeGestureEnable": shakeGestureEnable,
+          'options': options,
+        });
+      } on PlatformException catch (e) {
+        debugPrint(
+            'Failed to initialize AppsOnAir AppRemarkSDK! ${e.message ?? ''}');
+      }
+    });
   }
 
   @override
@@ -28,12 +30,14 @@ class AppRemarkMethodChannel extends AppRemarkPlatformInterface {
     BuildContext context, {
     Map<String, dynamic> extraPayload = const {},
   }) async {
-    try {
-      await methodChannel.invokeMethod('addAppRemark', {
-        'extraPayload': extraPayload,
-      });
-    } on PlatformException catch (e) {
-      debugPrint('Failed to implement addRemark()! ${e.message ?? ''}');
-    }
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      try {
+        await methodChannel.invokeMethod('addAppRemark', {
+          'extraPayload': extraPayload,
+        });
+      } on PlatformException catch (e) {
+        debugPrint('Failed to implement addRemark()! ${e.message ?? ''}');
+      }
+    });
   }
 }

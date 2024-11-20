@@ -17,10 +17,6 @@
                 android:name="io.flutter.embedding.android.NormalTheme"
                 android:resource="@style/NormalTheme" />
 
-            <meta-data
-                android:name="appId"
-                android:value="********-****-****-****-************" />
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -30,6 +26,10 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
+        <meta-data
+            android:name="appId"
+            android:value="bb98cd03-28fd-4578-85d0-3f8cc995d67d" />
     </application>
 
     <queries>

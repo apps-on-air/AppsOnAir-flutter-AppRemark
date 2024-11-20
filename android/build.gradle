@@ -52,6 +52,8 @@ android {
     }
 
     dependencies {
+        implementation 'com.github.apps-on-air:AppsOnAir-android-AppRemark:v0.0.2'
+
         testImplementation("org.jetbrains.kotlin:kotlin-test")
         testImplementation("org.mockito:mockito-core:5.0.0")
     }
