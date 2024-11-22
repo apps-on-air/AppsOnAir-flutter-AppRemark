@@ -29,7 +29,7 @@
 
         <meta-data
             android:name="appId"
-            android:value="bb98cd03-28fd-4578-85d0-3f8cc995d67d" />
+            android:value="********-****-****-****-************" />
     </application>
 
     <queries>
