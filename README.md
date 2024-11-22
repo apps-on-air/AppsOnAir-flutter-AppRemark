@@ -58,6 +58,18 @@ allprojects {
 }
 ```
 
+Add below code to your Launcher activity.
+
+>Add the following code because Fluter is preventing the SDK from capturing the current screen.
+
+```sh
+class MainActivity : FlutterActivity(){
+    override fun getRenderMode(): RenderMode {
+        return RenderMode.texture
+    }
+}
+```
+
 ### iOS Setup
 
 
