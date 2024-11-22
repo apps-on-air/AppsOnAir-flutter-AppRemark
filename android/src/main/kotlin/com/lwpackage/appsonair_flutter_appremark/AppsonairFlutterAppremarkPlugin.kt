@@ -2,6 +2,8 @@ package com.lwpackage.appsonair_flutter_appremark
 
 import android.app.Activity
 
+import com.appsonair.appremark.services.AppRemarkService
+
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
@@ -28,14 +30,18 @@ class AppsonairFlutterAppremarkPlugin : FlutterPlugin, MethodCallHandler, Activi
             var options: Map<String, Any> =
                 call.argument<Map<String, Any>>("options") as Map<String, Any>
 
-            //initialize method call
-
+            AppRemarkService.initialize(
+                activity,
+                options = options
+            )
         } else if (call.method == "addAppRemark") {
             var extraPayload: Map<String, Any> =
                 call.argument<Map<String, Any>>("extraPayload") as Map<String, Any>
 
-            //add remark method call
-
+            AppRemarkService.addRemark(
+                activity,
+                extraPayload = extraPayload
+            )
         } else {
             result.notImplemented()
         }

@@ -54,6 +54,7 @@ class _DemoAppState extends State<DemoApp> {
       body: Center(
         child: ElevatedButton(
           onPressed: () async {
+            // to open "Add Remark" screen manually
             await AppRemarkService.addRemark(context);
           },
           child: const Text('Add Remark'),
