@@ -32,6 +32,7 @@ class AppsonairFlutterAppremarkPlugin : FlutterPlugin, MethodCallHandler, Activi
 
             AppRemarkService.initialize(
                 activity,
+                shakeGestureEnable = shakeGestureEnable,
                 options = options
             )
         } else if (call.method == "addAppRemark") {
