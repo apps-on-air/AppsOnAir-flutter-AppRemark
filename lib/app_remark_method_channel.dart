@@ -1,8 +1,13 @@
+import 'dart:io';
+
 import 'package:appsonair_flutter_appremark/app_remark_platform_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class AppRemarkMethodChannel extends AppRemarkPlatformInterface {
+  late BuildContext context;
+  bool _dialogOpen = false;
+  OverlayEntry? _overlayEntry;
   @visibleForTesting
   final methodChannel = const MethodChannel('appsOnAirAppRemark');
 
@@ -13,16 +18,66 @@ class AppRemarkMethodChannel extends AppRemarkPlatformInterface {
     Map<String, dynamic> options = const {},
   }) async {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      this.context = context;
+      _listenToNativeMethod();
       try {
-        await methodChannel.invokeMethod('initializeAppRemark', {
+        final result = await methodChannel.invokeMethod('initializeAppRemark', {
           "shakeGestureEnable": shakeGestureEnable,
           'options': options,
         });
+        if (result is! bool) {
+          print("App Remark : ${result["error"]}");
+        }
       } on PlatformException catch (e) {
-        debugPrint(
-            'Failed to initialize AppsOnAir AppRemarkSDK! ${e.message ?? ''}');
+        debugPrint('Failed to initialize AppsOnAir AppRemarkSDK! ${e.message ?? ''}');
       }
     });
+  }
+
+  void _listenToNativeMethod() {
+    if (Platform.isIOS) {
+      methodChannel.setMethodCallHandler((call) {
+        switch (call.method) {
+          case "openDialog":
+            _showIgnorePointerOverLay(context);
+            _dialogOpen = true;
+            break;
+          case "closeDialog":
+            _hideIgnorePointerOverLay();
+            if (_dialogOpen) {
+              _dialogOpen = false;
+            }
+            break;
+        }
+        return Future.sync(() => _dialogOpen);
+      });
+    }
+  }
+
+  // while native screen is open (in IOS), Flutter ui is still accessible
+  // This overLay is solution for to prevent flutter ui access
+
+  // show overLay
+  void _showIgnorePointerOverLay(BuildContext context) {
+    if (_dialogOpen) return; // Prevent showing multiple overlays
+
+    _overlayEntry = OverlayEntry(
+      builder: (_) => Positioned.fill(
+        child: Container(
+          color: Colors.black.withOpacity(0.5), // Semi-transparent overlay
+        ),
+      ),
+    );
+
+    Overlay.of(context).insert(_overlayEntry!);
+  }
+
+  // hide overLay
+  void _hideIgnorePointerOverLay() {
+    if (!_dialogOpen) return;
+
+    _overlayEntry?.remove();
+    _overlayEntry = null;
   }
 
   @override
