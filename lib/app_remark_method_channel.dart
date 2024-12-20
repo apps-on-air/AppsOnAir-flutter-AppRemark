@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:appsonair_flutter_appremark/app_remark_platform_interface.dart';
@@ -26,7 +27,7 @@ class AppRemarkMethodChannel extends AppRemarkPlatformInterface {
           'options': options,
         });
         if (result is! bool) {
-          print("App Remark : ${result["error"]}");
+          log("App Remark : ${result["error"]}");
         }
       } on PlatformException catch (e) {
         debugPrint('Failed to initialize AppsOnAir AppRemarkSDK! ${e.message ?? ''}');
@@ -34,6 +35,8 @@ class AppRemarkMethodChannel extends AppRemarkPlatformInterface {
     });
   }
 
+  /// While the native screen is open (in iOS), the Flutter UI remains accessible.
+  /// This overlay provides a solution to block access to the Flutter UI.
   void _listenToNativeMethod() {
     if (Platform.isIOS) {
       methodChannel.setMethodCallHandler((call) {
@@ -53,9 +56,6 @@ class AppRemarkMethodChannel extends AppRemarkPlatformInterface {
       });
     }
   }
-
-  // while native screen is open (in IOS), Flutter ui is still accessible
-  // This overLay is solution for to prevent flutter ui access
 
   // show overLay
   void _showIgnorePointerOverLay(BuildContext context) {

@@ -8,7 +8,7 @@ PODS:
   - AppsOnAir-Core (0.0.1):
     - ReachabilitySwift
   - appsonair_flutter_appremark (0.0.1):
-    - AppsOnAir-AppRemark
+    - AppsOnAir-AppRemark (~> 0.1.0)
     - Flutter
   - Flutter (1.0.0)
   - integration_test (0.0.1):
@@ -47,7 +47,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AppsOnAir-AppRemark: 7bb45a97b03d17cef400d20e6b08160b36228e34
   AppsOnAir-Core: 220848815951591f32fd61a5b28e4a9cf83d0d96
-  appsonair_flutter_appremark: 78726e6065f29c39dcb6a9956465c1f842f1f47d
+  appsonair_flutter_appremark: c519b677a4a9e51248f58d2f60c481beec3ea8d2
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   integration_test: ce0a3ffa1de96d1a89ca0ac26fca7ea18a749ef4
   iOSDropDown: ce9daa584eaa5567cafc1b633e3cc7eb6d9cea42
