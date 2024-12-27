@@ -1,1 +1,8 @@
 rootProject.name = 'appsonair_flutter_appremark'
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+    }
+}

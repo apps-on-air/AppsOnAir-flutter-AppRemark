@@ -11,8 +11,12 @@ When you shake the device, it automatically takes screenshots of your apps. By m
 
 Users have the option to turn off shakeGesture. They can also manually open the "Add Remark" screen.
 
+## Minimum Requirements
 
-## How to use?
+- Android Gradle Plugin (AGP): Version 8.0.2 or higher
+- Kotlin: Version 1.7.10 or higher
+- Gradle: Version 8.0 or higher
+
 
 ### Android Setup
 
@@ -69,14 +73,29 @@ class MainActivity : FlutterActivity(){
     }
 }
 ```
+## Requirements
+
+Minimum deployment target: 12.0
 
 ### iOS Setup
 
+Add APIKey in your app info.plist file.
+```xml
+<key>AppsOnAirAPIKey</key>
+<string>XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX</string>
+```
+how to get APIKey for more details check this [URL](https://documentation.appsonair.com/Mobile-Quickstart/ios-sdk-setup)
 
-### Flutter Setup
+This pod requires photo permissions. Add the following usage description to your Info.plist:
 
 
-## Example :
+```xml
+<key>NSPhotoLibraryUsageDescription</key>
+<string>$(PRODUCT_NAME) need permission to choose image from gallery for App Remark feature.</string>
+```
+
+
+## Example
 
 Follow this step to add App Remarks using shakeGesture with the default theme of "Add Remark" screen.
 

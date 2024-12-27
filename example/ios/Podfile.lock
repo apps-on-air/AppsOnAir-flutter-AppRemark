@@ -1,0 +1,61 @@
+PODS:
+  - AppsOnAir-AppRemark (0.1.0):
+    - AppsOnAir-Core
+    - iOSDropDown
+    - IQKeyboardManagerSwift (~> 6.5.16)
+    - Toast-Swift
+    - ZLImageEditor
+  - AppsOnAir-Core (0.0.1):
+    - ReachabilitySwift
+  - appsonair_flutter_appremark (0.0.1):
+    - AppsOnAir-AppRemark (~> 0.1.0)
+    - Flutter
+  - Flutter (1.0.0)
+  - integration_test (0.0.1):
+    - Flutter
+  - iOSDropDown (0.4.0)
+  - IQKeyboardManagerSwift (6.5.16)
+  - ReachabilitySwift (5.2.4)
+  - Toast-Swift (5.1.1)
+  - ZLImageEditor (2.0.3):
+    - ZLImageEditor/Core (= 2.0.3)
+  - ZLImageEditor/Core (2.0.3)
+
+DEPENDENCIES:
+  - appsonair_flutter_appremark (from `.symlinks/plugins/appsonair_flutter_appremark/ios`)
+  - Flutter (from `Flutter`)
+  - integration_test (from `.symlinks/plugins/integration_test/ios`)
+
+SPEC REPOS:
+  trunk:
+    - AppsOnAir-AppRemark
+    - AppsOnAir-Core
+    - iOSDropDown
+    - IQKeyboardManagerSwift
+    - ReachabilitySwift
+    - Toast-Swift
+    - ZLImageEditor
+
+EXTERNAL SOURCES:
+  appsonair_flutter_appremark:
+    :path: ".symlinks/plugins/appsonair_flutter_appremark/ios"
+  Flutter:
+    :path: Flutter
+  integration_test:
+    :path: ".symlinks/plugins/integration_test/ios"
+
+SPEC CHECKSUMS:
+  AppsOnAir-AppRemark: 7bb45a97b03d17cef400d20e6b08160b36228e34
+  AppsOnAir-Core: 220848815951591f32fd61a5b28e4a9cf83d0d96
+  appsonair_flutter_appremark: c519b677a4a9e51248f58d2f60c481beec3ea8d2
+  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  integration_test: 13825b8a9334a850581300559b8839134b124670
+  iOSDropDown: ce9daa584eaa5567cafc1b633e3cc7eb6d9cea42
+  IQKeyboardManagerSwift: 12d89768845bb77b55cc092ecc2b1f9370f06b76
+  ReachabilitySwift: 32793e867593cfc1177f5d16491e3a197d2fccda
+  Toast-Swift: 7a03a532afe3a560d4044bc7c237e2864d295173
+  ZLImageEditor: 56ca892136c1c2d9a4e5ad6c4b961259a5219bef
+
+PODFILE CHECKSUM: ebb3e4def345fc4911235f8eabf95465d3d22021
+
+COCOAPODS: 1.16.2
