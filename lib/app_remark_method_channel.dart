@@ -9,7 +9,7 @@ class AppRemarkMethodChannel extends AppRemarkPlatformInterface {
   late BuildContext context;
   bool _dialogOpen = false;
   OverlayEntry? _overlayEntry;
-  @visibleForTesting
+  
   final methodChannel = const MethodChannel('appsOnAirAppRemark');
 
   @override

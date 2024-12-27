@@ -8,7 +8,7 @@ repository: https://github.com/apps-on-air/AppsOnAir-flutter-AppRemark
 
 environment:
   sdk: '>=3.2.0 <4.0.0'
-  flutter: '>=3.3.0'
+  flutter: '>=3.16.0'
 
 dependencies:
   flutter:
