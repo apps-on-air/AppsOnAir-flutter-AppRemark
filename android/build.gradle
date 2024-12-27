@@ -2,7 +2,7 @@ group = "com.lwpackage.appsonair_flutter_appremark"
 version = "1.0-SNAPSHOT"
 
 buildscript {
-    ext.kotlin_version = "1.9.25"
+    ext.kotlin_version = "1.9.0"
     repositories {
         google()
         mavenCentral()
@@ -10,7 +10,7 @@ buildscript {
     }
 
     dependencies {
-        classpath("com.android.tools.build:gradle:8.7.1")
+        classpath("com.android.tools.build:gradle:8.1.1")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
     }
 }
@@ -34,12 +34,12 @@ android {
     compileSdk = 34
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = "1.8"
     }
 
     sourceSets {
@@ -52,8 +52,7 @@ android {
     }
 
     dependencies {
-        implementation 'com.github.apps-on-air:AppsOnAir-android-AppRemark:v0.0.2'
-
+        implementation 'com.github.apps-on-air:AppsOnAir-android-AppRemark:v0.0.3' 
         testImplementation("org.jetbrains.kotlin:kotlin-test")
         testImplementation("org.mockito:mockito-core:5.0.0")
     }
