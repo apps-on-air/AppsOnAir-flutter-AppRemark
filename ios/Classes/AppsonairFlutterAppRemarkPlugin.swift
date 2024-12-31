@@ -18,7 +18,6 @@ public class AppsonairFlutterAppremarkPlugin: NSObject, FlutterPlugin {
     }
     
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-        print("handle called \(call.method)")
         if("initializeAppRemark" == call.method) {
             if let appsOnAirAPIKey = Bundle.main.object(forInfoDictionaryKey: "AppsOnAirAPIKey") as? String {
               if let args = call.arguments as? Dictionary<String, Any>,

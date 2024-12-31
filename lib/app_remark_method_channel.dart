@@ -1,17 +1,26 @@
 import 'dart:developer';
-import 'dart:io';
 
 import 'package:appsonair_flutter_appremark/app_remark_platform_interface.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+/// An implementation of [AppRemarkPlatformInterface] that uses method channels.
+/// This class enables communication with the native platform for the AppsOnAir AppRemark SDK.
 class AppRemarkMethodChannel extends AppRemarkPlatformInterface {
+  ///[context]: Required to show a dialog or overlay.
   late BuildContext context;
   bool _dialogOpen = false;
   OverlayEntry? _overlayEntry;
-  
+  /// The method channel used to interact with the native platform.
   final methodChannel = const MethodChannel('appsOnAirAppRemark');
 
+  /// Initializes the AppsOnAir AppRemark SDK.
+  ///
+  /// - [context]: Required to show a dialog or overlay.
+  /// - [shakeGestureEnable]: Determines whether the shake gesture is enabled for feedback (default is true).
+  /// - [options]: Additional configuration options for the SDK.
+  ///
   @override
   Future<void> initialize(
     BuildContext context, {
@@ -35,10 +44,13 @@ class AppRemarkMethodChannel extends AppRemarkPlatformInterface {
     });
   }
 
-  /// While the native screen is open (in iOS), the Flutter UI remains accessible.
-  /// This overlay provides a solution to block access to the Flutter UI.
+  /// Listens to method calls from the native platform.
+  /// 
+  /// This overlay to block user interactions with the Flutter UI
+  /// To manage overlay visibility
+  /// 
   void _listenToNativeMethod() {
-    if (Platform.isIOS) {
+    if (defaultTargetPlatform == TargetPlatform.iOS) {
       methodChannel.setMethodCallHandler((call) {
         switch (call.method) {
           case "openDialog":
@@ -57,22 +69,19 @@ class AppRemarkMethodChannel extends AppRemarkPlatformInterface {
     }
   }
 
-  // show overLay
+  /// Displays an overlay when a native dialog is open.
   void _showIgnorePointerOverLay(BuildContext context) {
     if (_dialogOpen) return; // Prevent showing multiple overlays
 
     _overlayEntry = OverlayEntry(
-      builder: (_) => Positioned.fill(
-        child: Container(
-          color: Colors.black.withOpacity(0.5), // Semi-transparent overlay
-        ),
+      builder: (_) => Positioned.fill(child: Container(color: Colors.transparent),
       ),
     );
 
     Overlay.of(context).insert(_overlayEntry!);
   }
 
-  // hide overLay
+  /// Hides the overlay when the native dialog is closed.
   void _hideIgnorePointerOverLay() {
     if (!_dialogOpen) return;
 
@@ -80,6 +89,11 @@ class AppRemarkMethodChannel extends AppRemarkPlatformInterface {
     _overlayEntry = null;
   }
 
+  /// Manually opens the App Remark screen.
+  ///
+  /// - [context]: The current BuildContext.
+  /// - [extraPayload]: Additional data to send along with the remark (default is an empty map).
+  ///
   @override
   Future<void> addRemark(
     BuildContext context, {
