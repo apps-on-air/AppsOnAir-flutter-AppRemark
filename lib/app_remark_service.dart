@@ -35,6 +35,11 @@ class AppRemarkService {
     );
   }
 
+  /// Manually opens the App Remark screen.
+  ///
+  /// - [context]: The current BuildContext.
+  /// - [extraPayload]: Additional data to send along with the remark (default is an empty map).
+  ///
   static Future<void> addRemark(
     BuildContext context, {
     Map<String, dynamic> extraPayload = const {},

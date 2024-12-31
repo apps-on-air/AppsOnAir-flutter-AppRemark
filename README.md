@@ -1,5 +1,8 @@
 # AppsOnAir-flutter-AppRemark
 
+## **Important Notice**
+
+This plugin is currently in **pre-production**. While the plugin is fully functional, the supported services it integrates with are not yet live in production. Stay tuned for updates as we bring our services to production!
 
 ## How it works? 
 
