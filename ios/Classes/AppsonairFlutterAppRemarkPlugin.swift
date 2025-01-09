@@ -23,7 +23,7 @@ public class AppsonairFlutterAppremarkPlugin: NSObject, FlutterPlugin {
               if let args = call.arguments as? Dictionary<String, Any>,
                 let directoryData = args["options"] as? NSDictionary, let shakeGestureEnable  = args["shakeGestureEnable"] as? Bool {
                     do{
-                        AppRemarkService.shared.initialize(options: directoryData,shakeGestureEnable: shakeGestureEnable)
+                        AppRemarkService.shared.initialize(shakeGestureEnable: shakeGestureEnable, options: directoryData)
                        if let nsPhotoLibraryUsageDescription = Bundle.main.object(forInfoDictionaryKey: "NSPhotoLibraryUsageDescription") as? String {
                             result(true)
                         } else {
