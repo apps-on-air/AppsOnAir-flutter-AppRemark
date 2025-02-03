@@ -9,9 +9,9 @@ class AppRemarkService {
   /// Parameter               | Type    |Default Value            | Description
   ///:-------------------------|:---------|:--------------------------|:-----------------------------------
   /// pageBackgroundColor     | String  | "#E8F1FF"                | Set page background color
-  /// appbarBackgroundColor   | String  | "#E8F1FF"                | Set appbar background color
-  /// appbarTitleText         | String  | "Add Remark"             | Set appbar title text
-  /// appbarTitleColor        | String  | "#000000"                | Set appbar title color
+  /// appBarBackgroundColor   | String  | "#E8F1FF"                | Set appbar background color
+  /// appBarTitleText         | String  | "Add Remark"             | Set appbar title text
+  /// appBarTitleColor        | String  | "#000000"                | Set appbar title color
   /// remarkTypeLabelText     | String  | "Remark Type"            | Set remark type label text
   /// descriptionLabelText    | String  | "Description"            | Set description label text
   /// descriptionHintText     | String  | "Add description here..."| Set description hint text

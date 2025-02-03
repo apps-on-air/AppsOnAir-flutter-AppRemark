@@ -41,8 +41,20 @@ class _DemoAppState extends State<DemoApp> {
     super.initState();
     Future.delayed(const Duration(milliseconds: 100), () async {
       await AppRemarkService.initialize(context, options: {
-        'pageBackgroundColor': '#FFC0CB',
-        'descriptionMaxLength': 25,
+        "pageBackgroundColor": "#70d20f",
+        "appBarBackgroundColor": "#70d20f",
+        "descriptionLabelText": "Add description here.",
+        "appBarTitleColor": "#FFFFFF",
+        "remarkTypeLabelText": "Add Remark.",
+        "descriptionHintText": "Add description.",
+        "descriptionMaxLength": 120,
+        "buttonText": "Submit Remark",
+        "buttonTextColor": "#000000",
+        "labelColor": "#FFFFFF",
+        "buttonBackgroundColor": "#FFFFFF",
+        "inputTextColor": "#000000",
+        "hintColor": "#000000",
+        "appBarTitleText": "Feedback"
       });
     });
   }
