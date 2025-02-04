@@ -1,6 +1,6 @@
 # AppsOnAir-flutter-AppRemark
 
-## **Important Notice**
+## ⚠️ Important Notice ⚠️
 
 This plugin is currently in **pre-production**. While the plugin is fully functional, the supported services it integrates with are not yet live in production. Stay tuned for updates as we bring our services to production!
 
@@ -123,9 +123,9 @@ Users have to pass given keys into "options". Using "options", this SDK will set
 | Key                     | DataType | Value                       | Description                    |
 | :---------------------- | :------- | :-------------------------- | :----------------------------- |
 | `pageBackgroundColor`   | `String` | `"#E8F1FF"`               | Set page background color      |
-| `appbarBackgroundColor` | `String` | `"#E8F1FF"`               | Set appbar background color    |
-| `appbarTitleText`       | `String` | `"Add Remark"`              | Set appbar title text          |
-| `appbarTitleColor`      | `String` | `"#000000"`               | Set appbar title color         |
+| `appBarBackgroundColor` | `String` | `"#E8F1FF"`               | Set appbar background color    |
+| `appBarTitleText`       | `String` | `"Add Remark"`              | Set appbar title text          |
+| `appBarTitleColor`      | `String` | `"#000000"`               | Set appbar title color         |
 | `remarkTypeLabelText`   | `String` | `"Remark Type"`             | Set remark type label text     |
 | `descriptionLabelText`  | `String` | `"Description"`             | Set description label text     |
 | `descriptionHintText`   | `int`    | `"Add description here..."` | Set description hint text      |
