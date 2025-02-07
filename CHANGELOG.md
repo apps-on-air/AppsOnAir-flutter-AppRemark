@@ -1,3 +1,7 @@
+## 0.0.5
+
+* Dependency upgrade and pro-guard issue fix
+
 ## 0.0.4
 
 * Dependency upgrade and improvements
