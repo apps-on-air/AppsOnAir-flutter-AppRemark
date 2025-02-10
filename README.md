@@ -128,8 +128,8 @@ Users have to pass given keys into "options". Using "options", this SDK will set
 | `appBarTitleColor`      | `String` | `"#000000"`               | Set appbar title color         |
 | `remarkTypeLabelText`   | `String` | `"Remark Type"`             | Set remark type label text     |
 | `descriptionLabelText`  | `String` | `"Description"`             | Set description label text     |
-| `descriptionHintText`   | `int`    | `"Add description here..."` | Set description hint text      |
-| `descriptionMaxLength`  | `String` | `255`                       | Set description max length     |
+| `descriptionHintText`   | `String` | `"Add description here..."` | Set description hint text      |
+| `descriptionMaxLength`  | `int`    | `255`                       | Set description max length     |
 | `buttonText`            | `String` | `"Submit"`                  | Set button text                |
 | `buttonTextColor`       | `String` | `"#FFFFFF"`               | Set button text color          |
 | `buttonBackgroundColor` | `String` | `"#007AFF"`               | Set button background color    |
