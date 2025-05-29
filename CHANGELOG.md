@@ -1,3 +1,8 @@
+## 0.2.0
+**Breaking Changes:**
+* Upgrade dependency
+* Remove `extraPayload` params in `addRemark()` methods and create separate `setAdditionalMetaData()` method for adding/updating the additional details.
+
 ## 0.1.0
 
 **Breaking Changes:**

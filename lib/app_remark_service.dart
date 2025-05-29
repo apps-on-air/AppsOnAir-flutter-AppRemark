@@ -40,12 +40,14 @@ class AppRemarkService {
   /// - [context]: The current BuildContext.
   /// - [extraPayload]: Additional data to send along with the remark (default is an empty map).
   ///
-  static Future<void> addRemark(
-    BuildContext context, {
+  static Future<void> addRemark(BuildContext context) async {
+    AppRemarkPlatformInterface.instance.addRemark(context);
+  }
+
+  static Future<void> setAdditionalMetaData({
     Map<String, dynamic> extraPayload = const {},
   }) async {
-    AppRemarkPlatformInterface.instance.addRemark(
-      context,
+    AppRemarkPlatformInterface.instance.setAdditionalMetaData(
       extraPayload: extraPayload,
     );
   }

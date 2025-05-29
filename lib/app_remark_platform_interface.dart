@@ -50,8 +50,11 @@ abstract class AppRemarkPlatformInterface extends PlatformInterface {
   ///
   /// - [context]: The build context for the current widget.
   /// - [extraPayload]: A map of extra data to send with the remark, defaults to an empty map.
-  Future<void> addRemark(
-    BuildContext context, {
+  Future<void> addRemark(BuildContext context) {
+    throw UnimplementedError('addRemark() has not been implemented.');
+  }
+
+  Future<void> setAdditionalMetaData({
     Map<String, dynamic> extraPayload = const {},
   }) {
     throw UnimplementedError('addRemark() has not been implemented.');
