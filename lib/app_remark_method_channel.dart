@@ -12,6 +12,7 @@ class AppRemarkMethodChannel extends AppRemarkPlatformInterface {
   late BuildContext context;
   bool _dialogOpen = false;
   OverlayEntry? _overlayEntry;
+
   /// The method channel used to interact with the native platform.
   final methodChannel = const MethodChannel('appsOnAirAppRemark');
 
@@ -45,10 +46,10 @@ class AppRemarkMethodChannel extends AppRemarkPlatformInterface {
   }
 
   /// Listens to method calls from the native platform.
-  /// 
+  ///
   /// This overlay to block user interactions with the Flutter UI
   /// To manage overlay visibility
-  /// 
+  ///
   void _listenToNativeMethod() {
     if (defaultTargetPlatform == TargetPlatform.iOS) {
       methodChannel.setMethodCallHandler((call) {
@@ -74,7 +75,8 @@ class AppRemarkMethodChannel extends AppRemarkPlatformInterface {
     if (_dialogOpen) return; // Prevent showing multiple overlays
 
     _overlayEntry = OverlayEntry(
-      builder: (_) => Positioned.fill(child: Container(color: Colors.transparent),
+      builder: (_) => Positioned.fill(
+        child: Container(color: Colors.transparent),
       ),
     );
 
@@ -95,17 +97,27 @@ class AppRemarkMethodChannel extends AppRemarkPlatformInterface {
   /// - [extraPayload]: Additional data to send along with the remark (default is an empty map).
   ///
   @override
-  Future<void> addRemark(
-    BuildContext context, {
+  Future<void> addRemark(BuildContext context) async {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      try {
+        await methodChannel.invokeMethod('addAppRemark');
+      } on PlatformException catch (e) {
+        debugPrint('Failed to implement addRemark()! ${e.message ?? ''}');
+      }
+    });
+  }
+
+  @override
+  Future<void> setAdditionalMetaData({
     Map<String, dynamic> extraPayload = const {},
   }) async {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       try {
-        await methodChannel.invokeMethod('addAppRemark', {
+        await methodChannel.invokeMethod('setAdditionalMetaData', {
           'extraPayload': extraPayload,
         });
       } on PlatformException catch (e) {
-        debugPrint('Failed to implement addRemark()! ${e.message ?? ''}');
+        debugPrint('Failed to implement setAdditionalMetaData() ${e.message ?? ''}');
       }
     });
   }

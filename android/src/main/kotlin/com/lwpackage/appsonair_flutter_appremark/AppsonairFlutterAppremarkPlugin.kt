@@ -36,12 +36,15 @@ class AppsonairFlutterAppremarkPlugin : FlutterPlugin, MethodCallHandler, Activi
                 options = options
             )
         } else if (call.method == "addAppRemark") {
+            AppRemarkService.addRemark(
+                activity
+            )
+        }else if (call.method == "setAdditionalMetaData") {
             var extraPayload: Map<String, Any> =
                 call.argument<Map<String, Any>>("extraPayload") as Map<String, Any>
 
-            AppRemarkService.addRemark(
-                activity,
-                extraPayload = extraPayload
+            AppRemarkService.setAdditionalMetaData(
+                extraPayload,
             )
         } else {
             result.notImplemented()
