@@ -40,6 +40,7 @@ class _DemoAppState extends State<DemoApp> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(milliseconds: 100), () async {
+      if (!mounted) return;
       await AppRemarkService.initialize(context, options: {
         "pageBackgroundColor": "#70d20f",
         "appBarBackgroundColor": "#70d20f",
@@ -75,6 +76,7 @@ class _DemoAppState extends State<DemoApp> {
               "userName": "USER_NAME",
               "userId": "USER_ID",
             });
+            if (!context.mounted) return;
             await AppRemarkService.addRemark(context);
           },
           child: const Text('Add Remark'),
