@@ -40,17 +40,26 @@ public class AppsonairFlutterAppremarkPlugin: NSObject, FlutterPlugin {
                 result(["error":"AppsOnAir APIKey not found in Info.plist"])
             }
         } else if("addAppRemark" == call.method){
-                  let args = call.arguments as? Dictionary<String, Any> ?? [:]
-                  let directoryData = args["additionalData"] as? NSDictionary  ?? [:]
                         do{
-                            AppRemarkService.shared.addRemark(extraPayload: directoryData)
+                            AppRemarkService.shared.addRemark()
                             result(true)
                         }catch let error {
                             print("Failed to load: \(error.localizedDescription)")
                             result(false)
                         }
-                }
+                } else if("setAdditionalMetaData" == call.method) {
+                    let args = call.arguments as? Dictionary<String, Any> ?? [:]
+                    let directoryData = args["extraPayload"] as? NSDictionary  ?? [:]
+                          do{
+                              AppRemarkService.shared.setAdditionalMetaData(extraPayload: directoryData)
+                              result(true)
+                          }catch let error {
+                              print("Failed to load: \(error.localizedDescription)")
+                              result(false)
+                          }
+        }
     }
+    
     
     @objc public func onViewVisibilityChanged(_ notification: NSNotification) {
         if let isPresented = notification.userInfo?["isPresented"] as? Bool {

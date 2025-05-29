@@ -56,6 +56,10 @@ class _DemoAppState extends State<DemoApp> {
         "hintColor": "#000000",
         "appBarTitleText": "Feedback"
       });
+      await AppRemarkService.setAdditionalMetaData(extraPayload: {
+        "userName": "USER_NAME",
+        "userId": "0000000",
+      });
     });
   }
 
@@ -67,6 +71,10 @@ class _DemoAppState extends State<DemoApp> {
         child: ElevatedButton(
           onPressed: () async {
             // to open "Add Remark" screen manually
+            await AppRemarkService.setAdditionalMetaData(extraPayload: {
+              "userName": "USER_NAME",
+              "userId": "USER_ID",
+            });
             await AppRemarkService.addRemark(context);
           },
           child: const Text('Add Remark'),
