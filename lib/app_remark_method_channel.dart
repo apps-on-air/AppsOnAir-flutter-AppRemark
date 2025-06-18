@@ -40,7 +40,8 @@ class AppRemarkMethodChannel extends AppRemarkPlatformInterface {
           log("App Remark : ${result["error"]}");
         }
       } on PlatformException catch (e) {
-        debugPrint('Failed to initialize AppsOnAir AppRemarkSDK! ${e.message ?? ''}');
+        debugPrint(
+            'Failed to initialize AppsOnAir AppRemarkSDK! ${e.message ?? ''}');
       }
     });
   }
@@ -117,7 +118,8 @@ class AppRemarkMethodChannel extends AppRemarkPlatformInterface {
           'extraPayload': extraPayload,
         });
       } on PlatformException catch (e) {
-        debugPrint('Failed to implement setAdditionalMetaData() ${e.message ?? ''}');
+        debugPrint(
+            'Failed to implement setAdditionalMetaData() ${e.message ?? ''}');
       }
     });
   }
