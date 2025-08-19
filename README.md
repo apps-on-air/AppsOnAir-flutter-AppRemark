@@ -2,7 +2,7 @@
 
 ## ⚠️ Important Notice ⚠️
 
-This plugin is currently in **pre-production**. While the plugin is fully functional, the supported services it integrates with are not yet live in production. Stay tuned for updates as we bring our services to production!
+The plugin is fully functional and integrates with our **AppRemark** service, which is currently in public beta. While you can start using it today, please note that there may be minor changes or improvements as we prepare for full production launch.
 
 ## How it works? 
 

@@ -55,11 +55,12 @@ class _DemoAppState extends State<DemoApp> {
         "buttonBackgroundColor": "#FFFFFF",
         "inputTextColor": "#000000",
         "hintColor": "#000000",
-        "appBarTitleText": "Feedback"
+        "appBarTitleText": "AppRemark"
       });
       await AppRemarkService.setAdditionalMetaData(extraPayload: {
         "userName": "USER_NAME",
-        "userId": "0000000",
+        "userId": "USER_ID",
+        "openUsingShake": "true",
       });
     });
   }
@@ -75,6 +76,7 @@ class _DemoAppState extends State<DemoApp> {
             await AppRemarkService.setAdditionalMetaData(extraPayload: {
               "userName": "USER_NAME",
               "userId": "USER_ID",
+              "openUsingShake": "false",
             });
             if (!context.mounted) return;
             await AppRemarkService.addRemark(context);
