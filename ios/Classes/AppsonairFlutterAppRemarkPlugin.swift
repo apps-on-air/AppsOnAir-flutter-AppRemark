@@ -19,7 +19,7 @@ public class AppsonairFlutterAppremarkPlugin: NSObject, FlutterPlugin {
     
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
         if("initializeAppRemark" == call.method) {
-            if let appsOnAirAPIKey = Bundle.main.object(forInfoDictionaryKey: "AppsOnAirAPIKey") as? String {
+            if let appsOnAirAppId = (Bundle.main.object(forInfoDictionaryKey: "AppsonairAppId") as? String  ?? Bundle.main.object(forInfoDictionaryKey: "AppsOnAirAPIKey") as? String) {
               if let args = call.arguments as? Dictionary<String, Any>,
                 let directoryData = args["options"] as? NSDictionary, let shakeGestureEnable  = args["shakeGestureEnable"] as? Bool {
                     do{
@@ -37,7 +37,7 @@ public class AppsonairFlutterAppremarkPlugin: NSObject, FlutterPlugin {
                     result(false)
                 }
             } else {
-                result(["error":"AppsOnAir APIKey not found in Info.plist"])
+                result(["error":"AppsonairAppId not found in Info.plist"])
             }
         } else if("addAppRemark" == call.method){
                         do{
