@@ -28,7 +28,7 @@
             android:value="2" />
 
         <meta-data
-            android:name="appId"
+            android:name="AppsonairAppId"
             android:value="********-****-****-****-************" />
     </application>
 
