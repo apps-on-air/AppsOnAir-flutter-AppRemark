@@ -1,10 +1,14 @@
+## 0.2.3
+
+* Dependencies upgrade and improvements
+
 ## 0.2.2
 
-* Dependency upgrade and improvements
+* Dependencies upgrade and improvements
 
 ## 0.2.1
 
-* Dependency upgrade and improvements
+* Dependencies upgrade and improvements
 
 ## 0.2.0
 **Breaking Changes:**
@@ -23,15 +27,15 @@
 
 ## 0.0.5
 
-* Dependency upgrade and pro-guard issue fix
+* Dependencies upgrade and pro-guard issue fix
 
 ## 0.0.4
 
-* Dependency upgrade and improvements
+* Dependencies upgrade and improvements
 
 ## 0.0.3
 
-* Dependency upgrade
+* Dependencies upgrade
 
 ## 0.0.2
 
