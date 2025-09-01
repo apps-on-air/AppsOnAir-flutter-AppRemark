@@ -20,12 +20,14 @@ Users have the option to turn off shakeGesture. They can also manually open the 
 - Kotlin: Version 1.7.10 or higher
 - Gradle: Version 8.0 or higher
 
+#### To learn more about AppsOnAir AppSync, please visit the [AppsOnAir](https://documentation.appsonair.com) website
+
 
 ### Android Setup
 
 Add meta-data to the app's AndroidManifest.xml file under the application tag.
 
->Make sure meta-data name is “appId”.
+>Make sure meta-data name is “AppsonairAppId”.
 
 >Provide your application id in meta-data value.
 
@@ -34,7 +36,7 @@ Add meta-data to the app's AndroidManifest.xml file under the application tag.
 </application>
     ...
     <meta-data
-        android:name="appId"
+        android:name="AppsonairAppId"
         android:value="********-****-****-****-************" />
 </application>
 ```
@@ -82,12 +84,12 @@ Minimum deployment target: 12.0
 
 ### iOS Setup
 
-Add APIKey in your app info.plist file.
+Add application id in your app info.plist file.
 ```xml
-<key>AppsOnAirAPIKey</key>
+<key>AppsonairAppId</key>
 <string>XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX</string>
 ```
-how to get APIKey for more details check this [URL](https://documentation.appsonair.com/Mobile-Quickstart/ios-sdk-setup)
+how to get application id for more details check this [URL](https://documentation.appsonair.com/MobileQuickstart/GettingStarted)
 
 This pod requires photo permissions. Add the following usage description to your Info.plist:
 

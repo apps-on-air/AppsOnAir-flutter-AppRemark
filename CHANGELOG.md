@@ -1,3 +1,7 @@
+## 0.2.3
+
+* Dependency upgrade and improvements
+
 ## 0.2.2
 
 * Dependency upgrade and improvements
