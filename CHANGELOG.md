@@ -1,3 +1,7 @@
+## 0.2.4
+
+* Documentation updated
+
 ## 0.2.3
 
 * Dependencies upgrade and improvements
