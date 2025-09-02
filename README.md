@@ -6,7 +6,7 @@ The plugin is fully functional and integrates with our **AppRemark** service, wh
 
 ## How it works? 
 
-This SDK is used to submit App Remark (Either it is bug/issue or any suggestion/feedback of your app).
+This SDK is used to submit AppRemark (Either it is bug/issue or any suggestion/feedback of your app).
 
 AppsOnAir offers a service to monitor your problems or app recommendations/improvements by taking screenshots of your apps when you shake your device.
 
@@ -14,14 +14,13 @@ When you shake the device, it automatically takes screenshots of your apps. By m
 
 Users have the option to turn off shakeGesture. They can also manually open the "Add Remark" screen.
 
+#### To learn more about AppsOnAir AppRemark, please visit the [AppsOnAir](https://documentation.appsonair.com) website
+
 ## Minimum Requirements
 
 - Android Gradle Plugin (AGP): Version 8.0.2 or higher
 - Kotlin: Version 1.7.10 or higher
 - Gradle: Version 8.0 or higher
-
-#### To learn more about AppsOnAir AppSync, please visit the [AppsOnAir](https://documentation.appsonair.com) website
-
 
 ### Android Setup
 
@@ -80,7 +79,7 @@ class MainActivity : FlutterActivity(){
 ```
 ## Requirements
 
-Minimum deployment target: 12.0
+Minimum deployment target: 14.0
 
 ### iOS Setup
 
@@ -96,13 +95,13 @@ This pod requires photo permissions. Add the following usage description to your
 
 ```xml
 <key>NSPhotoLibraryUsageDescription</key>
-<string>$(PRODUCT_NAME) need permission to choose image from gallery for App Remark feature.</string>
+<string>$(PRODUCT_NAME) need permission to choose image from gallery for AppRemark feature.</string>
 ```
 
 
 ## Example
 
-Follow this step to add App Remarks using shakeGesture with the default theme of "Add Remark" screen.
+Follow this step to add AppRemark using shakeGesture with the default theme of "Add Remark" screen.
 
 ```sh
  @override
@@ -114,7 +113,7 @@ Follow this step to add App Remarks using shakeGesture with the default theme of
   }
 ```
 
-Follow this step to add App Remarks using shakeGesture with the custom theme of "Add Remark" screen.
+Follow this step to add AppRemark using shakeGesture with the custom theme of "Add Remark" screen.
 
 Here users can customize the theme of "Add Remark" screen according to their app theme by passing "options" inform of Map, which contains key-value pair of user's theme data.
 
