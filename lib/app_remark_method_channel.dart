@@ -37,7 +37,7 @@ class AppRemarkMethodChannel extends AppRemarkPlatformInterface {
           'options': options,
         });
         if (result is! bool) {
-          log("App Remark : ${result["error"]}");
+          log("AppRemark : ${result["error"]}");
         }
       } on PlatformException catch (e) {
         debugPrint(
@@ -92,7 +92,7 @@ class AppRemarkMethodChannel extends AppRemarkPlatformInterface {
     _overlayEntry = null;
   }
 
-  /// Manually opens the App Remark screen.
+  /// Manually opens the AppRemark screen.
   ///
   /// - [context]: The current BuildContext.
   /// - [extraPayload]: Additional data to send along with the remark (default is an empty map).

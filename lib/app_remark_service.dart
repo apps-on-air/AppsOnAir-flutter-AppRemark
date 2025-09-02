@@ -35,7 +35,7 @@ class AppRemarkService {
     );
   }
 
-  /// Manually opens the App Remark screen.
+  /// Manually opens the AppRemark screen.
   ///
   /// - [context]: The current BuildContext.
   /// - [extraPayload]: Additional data to send along with the remark (default is an empty map).
