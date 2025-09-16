@@ -1,3 +1,7 @@
+## 0.2.5
+
+* Android dependency upgrade
+
 ## 0.2.4
 
 * Documentation updated
