@@ -1,3 +1,7 @@
+## 0.2.7
+
+* Android dependency upgrade
+
 ## 0.2.6
 
 * iOS dependency upgrade
