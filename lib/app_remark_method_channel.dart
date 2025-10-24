@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:appsonair_flutter_appremark/app_remark_platform_interface.dart';
@@ -15,6 +17,8 @@ class AppRemarkMethodChannel extends AppRemarkPlatformInterface {
 
   /// The method channel used to interact with the native platform.
   final methodChannel = const MethodChannel('appsOnAirAppRemark');
+  final eventChannel = const EventChannel('appsOnAirAppRemark/events');
+  StreamSubscription? _eventSubscription;
 
   /// Initializes the AppsOnAir AppRemark SDK.
   ///
@@ -27,10 +31,15 @@ class AppRemarkMethodChannel extends AppRemarkPlatformInterface {
     BuildContext context, {
     bool shakeGestureEnable = true,
     Map<String, dynamic> options = const {},
+    required Function(Map<String, dynamic>) onRemarkResponse,
   }) async {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       this.context = context;
       _listenToNativeMethod();
+
+      // Setup EventChannel listener
+      _setupEventChannelListener(onRemarkResponse);
+
       try {
         final result = await methodChannel.invokeMethod('initializeAppRemark', {
           "shakeGestureEnable": shakeGestureEnable,
@@ -40,10 +49,37 @@ class AppRemarkMethodChannel extends AppRemarkPlatformInterface {
           log("AppRemark : ${result["error"]}");
         }
       } on PlatformException catch (e) {
-        debugPrint(
-            'Failed to initialize AppsOnAir AppRemarkSDK! ${e.message ?? ''}');
+        debugPrint('Failed to initialize AppsOnAir AppRemarkSDK! ${e.message ?? ''}');
       }
     });
+  }
+
+  void _setupEventChannelListener(Function(Map<String, dynamic>)? onRemarkResponse) {
+    // Cancel existing subscription if any
+    _eventSubscription?.cancel();
+
+    if (onRemarkResponse != null) {
+      _eventSubscription = eventChannel.receiveBroadcastStream().listen(
+        (dynamic data) {
+          try {
+            if (data is String) {
+              // Parse the JSON string from native
+              final Map<String, dynamic> remarkData = jsonDecode(data);
+              onRemarkResponse(remarkData);
+            } else if (data is Map) {
+              // Handle if data is already a Map
+              onRemarkResponse(Map<String, dynamic>.from(data));
+            }
+          } catch (e) {
+            debugPrint('Error parsing remark response: $e');
+          }
+        },
+        onError: (dynamic error) {
+          debugPrint('EventChannel error: $error');
+        },
+        cancelOnError: false,
+      );
+    }
   }
 
   /// Listens to method calls from the native platform.
@@ -69,6 +105,12 @@ class AppRemarkMethodChannel extends AppRemarkPlatformInterface {
         return Future.sync(() => _dialogOpen);
       });
     }
+  }
+
+  // Dispose method to clean up subscription
+  void dispose() {
+    _eventSubscription?.cancel();
+    _eventSubscription = null;
   }
 
   /// Displays an overlay when a native dialog is open.
@@ -118,8 +160,7 @@ class AppRemarkMethodChannel extends AppRemarkPlatformInterface {
           'extraPayload': extraPayload,
         });
       } on PlatformException catch (e) {
-        debugPrint(
-            'Failed to implement setAdditionalMetaData() ${e.message ?? ''}');
+        debugPrint('Failed to implement setAdditionalMetaData() ${e.message ?? ''}');
       }
     });
   }
