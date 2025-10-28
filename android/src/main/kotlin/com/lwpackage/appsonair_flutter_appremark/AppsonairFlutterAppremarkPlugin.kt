@@ -55,14 +55,12 @@ class AppsonairFlutterAppremarkPlugin : FlutterPlugin, MethodCallHandler, Activi
                 activity,
                 shakeGestureEnable = shakeGestureEnable,
                 options = options,
-                object : RemarkResponse {
-                    override fun onRemarkResponse(result: JSONObject) {
-                        mainHandler.post {
-                            eventSink?.success(result.toString())
-                        }
-                    }
+
+            ){ result ->
+                mainHandler.post {
+                    eventSink?.success(result.toString())
                 }
-            )
+            }
         } else if (call.method == "addAppRemark") {
             AppRemarkService.addRemark(
                 activity
