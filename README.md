@@ -110,7 +110,11 @@ Follow this step to add AppRemark using shakeGesture with the default theme of "
   void initState() {
     super.initState();
     Future.delayed(const Duration(milliseconds: 100), () async {
-      await AppRemarkService.initialize(context);
+      await AppRemarkService.initialize(context,
+        onRemarkResponse: (result) {
+        // Handle response here
+       },
+      );
     });
   }
 ```
@@ -143,11 +147,15 @@ Users have to pass given keys into "options". Using "options", this SDK will set
 
 ```dart
 AppRemarkService.initialize(
-    context, 
+    context,
     options: {
         'pageBackgroundColor': '#FFC0CB',
         'descriptionMaxLength': 25,
-    });
+    },
+    onRemarkResponse: (result) {
+    // Handle response here
+     },
+);
 ```
 
 "shakeGestureEnable" is set to true by default, allowing the device to capture your current screen when it shakes. If it is false, the device shake's auto-capture screen will be disabled.
@@ -156,6 +164,9 @@ AppRemarkService.initialize(
 AppRemarkService.initialize(
     context,
     shakeGestureEnable: false,
+    onRemarkResponse: (result) {
+     // Handle response here
+     },
 );
 ```
 
