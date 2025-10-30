@@ -31,7 +31,7 @@ Add meta-data to the app's AndroidManifest.xml file under the application tag.
 >Provide your application id in meta-data value.
 
 
-```sh
+```xml
 </application>
     ...
     <meta-data
@@ -70,7 +70,9 @@ Add below code to your Launcher activity.
 
 >Add the following code because Fluter is preventing the SDK from capturing the current screen.
 
-```sh
+```kotlin
+import io.flutter.embedding.android.RenderMode
+
 class MainActivity : FlutterActivity(){
     override fun getRenderMode(): RenderMode {
         return RenderMode.texture
@@ -103,12 +105,16 @@ This pod requires photo permissions. Add the following usage description to your
 
 Follow this step to add AppRemark using shakeGesture with the default theme of "Add Remark" screen.
 
-```sh
+```dart
  @override
   void initState() {
     super.initState();
     Future.delayed(const Duration(milliseconds: 100), () async {
-      await AppRemarkService.initialize(context);
+      await AppRemarkService.initialize(context,
+        onRemarkResponse: (result) {
+        // Handle response here
+       },
+      );
     });
   }
 ```
@@ -139,27 +145,34 @@ Users have to pass given keys into "options". Using "options", this SDK will set
 | `inputTextColor`        | `String` | `"#000000"`               | Set textfield input text color |
 
 
-```sh
+```dart
 AppRemarkService.initialize(
-    context, 
+    context,
     options: {
         'pageBackgroundColor': '#FFC0CB',
         'descriptionMaxLength': 25,
-    });
+    },
+    onRemarkResponse: (result) {
+    // Handle response here
+     },
+);
 ```
 
 "shakeGestureEnable" is set to true by default, allowing the device to capture your current screen when it shakes. If it is false, the device shake's auto-capture screen will be disabled.
 
-```sh
+```dart
 AppRemarkService.initialize(
     context,
     shakeGestureEnable: false,
+    onRemarkResponse: (result) {
+     // Handle response here
+     },
 );
 ```
 
 Follow this step to open AppRemark screen manually,
 
-```sh
+```dart
 AppRemarkService.addRemark(context);
 ```
 
@@ -167,7 +180,7 @@ Follow this step to send your customize payload, which you want to save in order
 
 Users have to pass "extraPayload" inform of Map, which contains key-value pair of user's additional meta-data.
 
-```
+```dart
 await AppRemarkService.setAdditionalMetaData(extraPayload: {
       "userName": "USER_NAME",
       "userId": "USER_ID"});

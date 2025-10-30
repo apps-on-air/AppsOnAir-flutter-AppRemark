@@ -27,11 +27,13 @@ class AppRemarkService {
     BuildContext context, {
     bool shakeGestureEnable = true,
     Map<String, dynamic> options = const {},
+    required Function(Map<String, dynamic>) onRemarkResponse,
   }) async {
     AppRemarkPlatformInterface.instance.initialize(
       context,
       shakeGestureEnable: shakeGestureEnable,
       options: options,
+      onRemarkResponse: onRemarkResponse,
     );
   }
 
