@@ -1,3 +1,8 @@
+## 0.2.7
+
+* Introduced `onRemarkResponse` feedback listener in `initialize` method to process success and failure responses.
+* Native dependencies upgrade.
+
 ## 0.2.6
 
 * iOS dependency upgrade

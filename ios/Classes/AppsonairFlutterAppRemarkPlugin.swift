@@ -5,6 +5,9 @@ import AppsOnAir_AppRemark
 public class AppsonairFlutterAppremarkPlugin: NSObject, FlutterPlugin {
     static var channel:FlutterMethodChannel = FlutterMethodChannel()
     
+    static var eventChannel: FlutterEventChannel = FlutterEventChannel()
+    static var eventSink: FlutterEventSink?
+    
     public override init() {
         super.init()
         NotificationCenter.default.addObserver(self, selector: #selector(self.onViewVisibilityChanged(_:)), name: .visibilityChanges, object: nil)
@@ -15,6 +18,9 @@ public class AppsonairFlutterAppremarkPlugin: NSObject, FlutterPlugin {
       
         let instance = AppsonairFlutterAppremarkPlugin()
         registrar.addMethodCallDelegate(instance, channel: channel)
+        
+        self.eventChannel = FlutterEventChannel(name: "appsOnAirAppRemark/events", binaryMessenger: registrar.messenger())
+        self.eventChannel.setStreamHandler(instance)
     }
     
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
@@ -23,8 +29,15 @@ public class AppsonairFlutterAppremarkPlugin: NSObject, FlutterPlugin {
               if let args = call.arguments as? Dictionary<String, Any>,
                 let directoryData = args["options"] as? NSDictionary, let shakeGestureEnable  = args["shakeGestureEnable"] as? Bool {
                     do{
-                        AppRemarkService.shared.initialize(shakeGestureEnable: shakeGestureEnable, options: directoryData)
-                       if let nsPhotoLibraryUsageDescription = Bundle.main.object(forInfoDictionaryKey: "NSPhotoLibraryUsageDescription") as? String {
+                        AppRemarkService.shared.initialize(shakeGestureEnable: shakeGestureEnable, options: directoryData) { remarks in
+                            DispatchQueue.main.async {
+                                if let jsonData = try? JSONSerialization.data(withJSONObject: remarks, options: []),
+                                   let jsonString = String(data: jsonData, encoding: .utf8) {
+                                    AppsonairFlutterAppremarkPlugin.eventSink?(jsonString)
+                                }
+                            }
+                        }
+                        if let nsPhotoLibraryUsageDescription = Bundle.main.object(forInfoDictionaryKey: "NSPhotoLibraryUsageDescription") as? String {
                             result(true)
                         } else {
                             result(["error":"NSPhotoLibraryUsageDescription not found in Info.plist"])
@@ -74,7 +87,19 @@ public class AppsonairFlutterAppremarkPlugin: NSObject, FlutterPlugin {
          NotificationCenter.default.removeObserver(self, name: .visibilityChanges, object: nil)
     }
 }
+
+extension AppsonairFlutterAppremarkPlugin: FlutterStreamHandler {
+    public func onListen(withArguments arguments: Any?, eventSink events: @escaping FlutterEventSink) -> FlutterError? {
+        AppsonairFlutterAppremarkPlugin.eventSink = events
+        return nil
+    }
+    
+    public func onCancel(withArguments arguments: Any?) -> FlutterError? {
+        AppsonairFlutterAppremarkPlugin.eventSink = nil
+        return nil
+    }
+}
+
 extension Notification.Name {
  static let visibilityChanges = NSNotification.Name("visibilityChanges")
 }
-

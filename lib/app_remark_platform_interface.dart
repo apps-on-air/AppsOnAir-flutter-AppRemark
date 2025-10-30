@@ -42,6 +42,7 @@ abstract class AppRemarkPlatformInterface extends PlatformInterface {
     BuildContext context, {
     bool shakeGestureEnable = true,
     Map<String, dynamic> options = const {},
+    required Function(Map<String, dynamic>) onRemarkResponse,
   }) {
     throw UnimplementedError('initialize() has not been implemented.');
   }
