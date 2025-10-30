@@ -39,29 +39,36 @@ class _DemoAppState extends State<DemoApp> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(milliseconds: 100), () async {
+    Future.delayed(const Duration(milliseconds: 300), () async {
       if (!mounted) return;
-      await AppRemarkService.initialize(context, options: {
-        "pageBackgroundColor": "#70d20f",
-        "appBarBackgroundColor": "#70d20f",
-        "descriptionLabelText": "Add description here.",
-        "appBarTitleColor": "#FFFFFF",
-        "remarkTypeLabelText": "Add Remark.",
-        "descriptionHintText": "Add description.",
-        "descriptionMaxLength": 120,
-        "buttonText": "Submit Remark",
-        "buttonTextColor": "#000000",
-        "labelColor": "#FFFFFF",
-        "buttonBackgroundColor": "#FFFFFF",
-        "inputTextColor": "#000000",
-        "hintColor": "#000000",
-        "appBarTitleText": "AppRemark"
-      });
+      await AppRemarkService.initialize(
+        context,
+        options: {
+          "pageBackgroundColor": "#70d20f",
+          "appBarBackgroundColor": "#70d20f",
+          "descriptionLabelText": "Add description here.",
+          "appBarTitleColor": "#FFFFFF",
+          "remarkTypeLabelText": "Add Remark.",
+          "descriptionHintText": "Add description.",
+          "descriptionMaxLength": 120,
+          "buttonText": "Submit Remark",
+          "buttonTextColor": "#000000",
+          "labelColor": "#FFFFFF",
+          "buttonBackgroundColor": "#FFFFFF",
+          "inputTextColor": "#000000",
+          "hintColor": "#000000",
+          "appBarTitleText": "AppRemark"
+        },
+        onRemarkResponse: (result) {
+          // Handle your app remark status here..
+        },
+      );
       await AppRemarkService.setAdditionalMetaData(extraPayload: {
         "userName": "USER_NAME",
         "userId": "USER_ID",
         "openUsingShake": "true",
       });
+      setState(() {});
     });
   }
 
