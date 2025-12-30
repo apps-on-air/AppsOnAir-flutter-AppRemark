@@ -1,3 +1,7 @@
+## 0.2.8
+
+* Android dependency upgrade
+
 ## 0.2.7
 
 * Introduced `onRemarkResponse` feedback listener in `initialize` method to process success and failure responses.
