@@ -81,24 +81,93 @@ class MainActivity : FlutterActivity(){
 ```
 ## Requirements
 
-Minimum deployment target: 14.0
+Minimum deployment target: **iOS 14.0**
 
 ### iOS Setup
 
-Add application id in your app info.plist file.
+Add your application ID in `Info.plist`:
+
 ```xml
 <key>AppsonairAppId</key>
 <string>XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX</string>
 ```
-how to get application id for more details check this [URL](https://documentation.appsonair.com/MobileQuickstart/GettingStarted)
 
-This pod requires photo permissions. Add the following usage description to your Info.plist:
+For more details on how to get your application ID, check this [URL](https://documentation.appsonair.com/MobileQuickstart/GettingStarted).
 
+Add the photo library permission to your `Info.plist`:
 
 ```xml
 <key>NSPhotoLibraryUsageDescription</key>
 <string>$(PRODUCT_NAME) need permission to choose image from gallery for AppRemark feature.</string>
 ```
+
+---
+
+### iOS Dependency Manager
+
+This plugin supports **both CocoaPods and Swift Package Manager (SPM)**. SPM support requires **Flutter 3.24.0 or higher**.
+
+By default, CocoaPods is used. You can control which dependency manager your project uses by adding the following to your app's `pubspec.yaml`:
+
+#### Option 1 — CocoaPods (default)
+
+Use this if you want to always use CocoaPods regardless of any global Flutter setting:
+
+```yaml
+# pubspec.yaml
+flutter:
+  config:
+    # false → always uses CocoaPods (default)
+    enable-swift-package-manager: false
+```
+
+No other steps needed. Run:
+
+```sh
+flutter pub get
+cd ios && pod install
+```
+
+#### Option 2 — Swift Package Manager
+
+> Requires **Flutter ≥ 3.24.0**. SPM support on iOS is available starting from this version.
+
+Use this to opt into SPM and use `AppsOnAir-iOS-AppRemark` via Swift Package Manager:
+
+```yaml
+# pubspec.yaml
+flutter:
+  config:
+    # true → uses Swift Package Manager
+    enable-swift-package-manager: true
+```
+
+Then run:
+
+```sh
+flutter pub get
+```
+
+Flutter will automatically resolve `AppsOnAir-iOS-AppRemark v1.2.1` via SPM. No additional Xcode configuration is required.
+
+> **Note:** You can also enable SPM globally for all your Flutter projects (instead of per-project) by running:
+> ```sh
+> flutter config --enable-swift-package-manager
+> ```
+> In that case, you can remove the `config` block from `pubspec.yaml` entirely and Flutter will use SPM automatically.
+
+#### Summary
+
+| `enable-swift-package-manager` | Flutter version | Result |
+|:---:|:---:|:---|
+| `false` | any | **CocoaPods** — uses |
+| `true` | ≥ 3.24.0 | **SPM** — uses |
+| not set | any (global off) | **CocoaPods** — default behaviour |
+| not set | ≥ 3.24.0 (global on) | **SPM** — Flutter global setting applies |
+
+> 💡 **Recommendation:** We recommend migrating to **Swift Package Manager** — it is Apple's official, actively maintained dependency manager and receives updates first.
+
+---
 
 
 ## Example
