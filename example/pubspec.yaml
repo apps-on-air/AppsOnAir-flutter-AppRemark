@@ -27,6 +27,11 @@ dev_dependencies:
   flutter_lints: ^3.0.0
 
 flutter:
+  config:
+    # Set to false  → always uses CocoaPods (default, for contributors & CI)
+    # Set to true   → uses SPM (or remove this key and enable globally via
+    #                 `flutter config --enable-swift-package-manager`)
+    enable-swift-package-manager: true
 
   uses-material-design: true
 

@@ -40,5 +40,9 @@ Icon?
 
 # Swift Package Manager
 .build/
+**/.build/
 *.resolved
+**/*.resolved
+.swiftpm/
+**/.swiftpm/
 xcshareddata/swiftpm/

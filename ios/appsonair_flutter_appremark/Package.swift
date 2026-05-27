@@ -19,8 +19,12 @@ let package = Package(
                 .product(name: "AppsOnAir-AppRemark", package: "AppsOnAir-iOS-AppRemark")
             ],
             path: ".",
+            // Explicitly list only the Swift file.
+            // SPM does not support mixed Swift + ObjC in one target.
+            // The ObjC bridge files (AppRemarkFlutterSdkPlugin.h/.m) are
+            // used by CocoaPods only and must be excluded from SPM.
             sources: [
-                "Sources/appsonair_flutter_appremark",
+                "Sources/appsonair_flutter_appremark/AppsonairFlutterAppRemarkPlugin.swift"
             ]
         )
     ]
