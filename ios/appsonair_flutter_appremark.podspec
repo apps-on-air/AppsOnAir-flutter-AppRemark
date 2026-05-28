@@ -4,16 +4,17 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'appsonair_flutter_appremark'
-  s.version          = '1.1.2'
-  s.summary          = 'A new Flutter plugin project.'
+  s.version          = '0.2.8'
+  s.summary          = 'AppsOnAir AppRemark flutter sdk allows you to capture current screen on device shake.'
   s.description      = <<-DESC
-A new Flutter plugin project.
+AppsOnAir AppRemark flutter sdk allows you to capture current screen on device shake directly through AppsOnAir.
                        DESC
-  s.homepage         = 'http://example.com'
+  s.homepage         = 'https://documentation.appsonair.com/category/appremark-beta'
   s.license          = { :file => '../LICENSE' }
-  s.author           = { 'Your Company' => 'email@example.com' }
+  s.author           = { 'devtools-logicwind' => 'devtools@logicwind.com' }
   s.source           = { :path => '.' }
-  s.source_files = 'Classes/**/*'
+  # Source files live in the SPM layout directory (shared between CocoaPods and SPM)
+  s.source_files     = 'appsonair_flutter_appremark/Sources/appsonair_flutter_appremark/**/*.{swift,h,m}'
   s.dependency 'Flutter'
   s.platform = :ios, '14.0'
 

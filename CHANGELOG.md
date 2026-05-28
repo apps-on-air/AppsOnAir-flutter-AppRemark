@@ -1,3 +1,7 @@
+## 0.3.0
+
+* Added Swift Package Manager Support
+
 ## 0.2.8
 
 * Android dependency upgrade

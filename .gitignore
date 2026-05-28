@@ -28,3 +28,11 @@ migrate_working_dir/
 **/doc/api/
 .dart_tool/
 build/
+
+# Swift Package Manager
+.build/
+**/.build/
+*.resolved
+**/*.resolved
+.swiftpm/
+**/.swiftpm/
