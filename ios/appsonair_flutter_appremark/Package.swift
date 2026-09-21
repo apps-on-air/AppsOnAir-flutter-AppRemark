@@ -10,7 +10,7 @@ let package = Package(
         .library(name: "appsonair-flutter-appremark", targets: ["appsonair_flutter_appremark"])
     ],
     dependencies: [
-        .package(url: "https://github.com/apps-on-air/AppsOnAir-iOS-AppRemark.git", exact: "1.2.1")
+        .package(url: "https://github.com/apps-on-air/AppsOnAir-iOS-AppRemark.git", exact: "1.2.2")
     ],
     targets: [
         .target(
