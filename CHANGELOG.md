@@ -1,3 +1,7 @@
+## 0.3.1
+
+* iOS dependency upgrade
+
 ## 0.3.0
 
 * Added Swift Package Manager Support
