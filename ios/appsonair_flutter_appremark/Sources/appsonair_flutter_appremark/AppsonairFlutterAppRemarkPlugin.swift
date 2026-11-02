@@ -24,52 +24,70 @@ public class AppsonairFlutterAppremarkPlugin: NSObject, FlutterPlugin {
     }
     
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-        if("initializeAppRemark" == call.method) {
-            if let appsOnAirAppId = (Bundle.main.object(forInfoDictionaryKey: "AppsonairAppId") as? String  ?? Bundle.main.object(forInfoDictionaryKey: "AppsOnAirAPIKey") as? String) {
-              if let args = call.arguments as? Dictionary<String, Any>,
-                let directoryData = args["options"] as? NSDictionary, let shakeGestureEnable  = args["shakeGestureEnable"] as? Bool {
-                    do{
-                        AppRemarkService.shared.initialize(shakeGestureEnable: shakeGestureEnable, options: directoryData) { remarks in
-                            DispatchQueue.main.async {
-                                if let jsonData = try? JSONSerialization.data(withJSONObject: remarks, options: []),
-                                   let jsonString = String(data: jsonData, encoding: .utf8) {
-                                    AppsonairFlutterAppremarkPlugin.eventSink?(jsonString)
-                                }
-                            }
-                        }
-                        if let nsPhotoLibraryUsageDescription = Bundle.main.object(forInfoDictionaryKey: "NSPhotoLibraryUsageDescription") as? String {
-                            result(true)
-                        } else {
-                            result(["error":"NSPhotoLibraryUsageDescription not found in Info.plist"])
-                        }
-                    }catch let error {
-                        print("Failed to load: \(error.localizedDescription)")
-                        result(false)
-                    }
-              }else {
-                    result(false)
-                }
-            } else {
-                result(["error":"AppsonairAppId not found in Info.plist"])
+        switch call.method {
+        case "initializeAppRemark":
+            guard let appsOnAirAppId = (Bundle.main.object(forInfoDictionaryKey: "AppsonairAppId") as? String
+                                     ?? Bundle.main.object(forInfoDictionaryKey: "AppsOnAirAPIKey") as? String) else {
+                result(["error": "AppsonairAppId not found in Info.plist"])
+                return
             }
-        } else if("addAppRemark" == call.method){
-                        do{
-                            AppRemarkService.shared.addRemark()
-                            result(true)
-                        }catch let error {
-                            print("Failed to load: \(error.localizedDescription)")
-                            result(false)
+            guard let args = call.arguments as? Dictionary<String, Any>,
+                  let directoryData = args["options"] as? NSDictionary,
+                  let shakeGestureEnable = args["shakeGestureEnable"] as? Bool else {
+                result(false)
+                return
+            }
+            let shakeSensitivity: ShakeSensitivity? = {
+                switch args["shakeSensitivity"] as? String {
+                case "veryLow":  return .veryLow
+                case "low":      return .low
+                case "medium":   return .medium
+                case "high":     return .high
+                case "veryHigh": return .veryHigh
+                default:         return nil
+                }
+            }()
+            do {
+                AppRemarkService.shared.initialize(shakeGestureEnable: shakeGestureEnable, options: directoryData, shakeSensitivity: shakeSensitivity ?? .medium) { remarks in
+                    DispatchQueue.main.async {
+                        if let jsonData = try? JSONSerialization.data(withJSONObject: remarks, options: []),
+                           let jsonString = String(data: jsonData, encoding: .utf8) {
+                            AppsonairFlutterAppremarkPlugin.eventSink?(jsonString)
                         }
-                } else if("setAdditionalMetaData" == call.method) {
-                    let args = call.arguments as? Dictionary<String, Any> ?? [:]
-                    let directoryData = args["extraPayload"] as? NSDictionary  ?? [:]
-                          do{
-                              AppRemarkService.shared.setAdditionalMetaData(extraPayload: directoryData)
-                              result(true)
-                          }catch let error {
-                              print("Failed to load: \(error.localizedDescription)")
-                              result(false)
-                          }
+                    }
+                }
+                if Bundle.main.object(forInfoDictionaryKey: "NSPhotoLibraryUsageDescription") is String {
+                    result(true)
+                } else {
+                    result(["error": "NSPhotoLibraryUsageDescription not found in Info.plist"])
+                }
+            } catch let error {
+                print("Failed to load: \(error.localizedDescription)")
+                result(false)
+            }
+
+        case "addAppRemark":
+            do {
+                AppRemarkService.shared.addRemark()
+                result(true)
+            } catch let error {
+                print("Failed to load: \(error.localizedDescription)")
+                result(false)
+            }
+
+        case "setAdditionalMetaData":
+            let args = call.arguments as? Dictionary<String, Any> ?? [:]
+            let directoryData = args["extraPayload"] as? NSDictionary ?? [:]
+            do {
+                AppRemarkService.shared.setAdditionalMetaData(extraPayload: directoryData)
+                result(true)
+            } catch let error {
+                print("Failed to load: \(error.localizedDescription)")
+                result(false)
+            }
+
+        default:
+            result(FlutterMethodNotImplemented)
         }
     }
     

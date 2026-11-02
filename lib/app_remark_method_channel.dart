@@ -30,6 +30,7 @@ class AppRemarkMethodChannel extends AppRemarkPlatformInterface {
   Future<void> initialize(
     BuildContext context, {
     bool shakeGestureEnable = true,
+    ShakeSensitivity shakeSensitivity = ShakeSensitivity.medium,
     Map<String, dynamic> options = const {},
     required Function(Map<String, dynamic>) onRemarkResponse,
   }) async {
@@ -43,6 +44,7 @@ class AppRemarkMethodChannel extends AppRemarkPlatformInterface {
       try {
         final result = await methodChannel.invokeMethod('initializeAppRemark', {
           "shakeGestureEnable": shakeGestureEnable,
+          "shakeSensitivity": shakeSensitivity.name,
           'options': options,
         });
         if (result is! bool) {
@@ -50,13 +52,15 @@ class AppRemarkMethodChannel extends AppRemarkPlatformInterface {
         }
       } on PlatformException catch (e) {
         debugPrint(
-            'Failed to initialize AppsOnAir AppRemarkSDK! ${e.message ?? ''}');
+          'Failed to initialize AppsOnAir AppRemarkSDK! ${e.message ?? ''}',
+        );
       }
     });
   }
 
   void _setupEventChannelListener(
-      Function(Map<String, dynamic>)? onRemarkResponse) {
+    Function(Map<String, dynamic>)? onRemarkResponse,
+  ) {
     // Cancel existing subscription if any
     _eventSubscription?.cancel();
 
@@ -120,9 +124,8 @@ class AppRemarkMethodChannel extends AppRemarkPlatformInterface {
     if (_dialogOpen) return; // Prevent showing multiple overlays
 
     _overlayEntry = OverlayEntry(
-      builder: (_) => Positioned.fill(
-        child: Container(color: Colors.transparent),
-      ),
+      builder: (_) =>
+          Positioned.fill(child: Container(color: Colors.transparent)),
     );
 
     Overlay.of(context).insert(_overlayEntry!);
@@ -163,7 +166,8 @@ class AppRemarkMethodChannel extends AppRemarkPlatformInterface {
         });
       } on PlatformException catch (e) {
         debugPrint(
-            'Failed to implement setAdditionalMetaData() ${e.message ?? ''}');
+          'Failed to implement setAdditionalMetaData() ${e.message ?? ''}',
+        );
       }
     });
   }
