@@ -1,50 +1,49 @@
 # AppsOnAir-flutter-AppRemark
 
-## ⚠️ Important Notice ⚠️
+A Flutter plugin for [AppsOnAir AppRemark](https://documentation.appsonair.com) — capture in-app feedback and bug reports via shake gesture or manual trigger.
 
-The plugin is fully functional and integrates with our **AppRemark** service, which is currently in public beta. While you can start using it today, please note that there may be minor changes or improvements as we prepare for full production launch.
+When the user shakes the device, the SDK automatically takes a screenshot. The user can annotate it, select a remark type, add a description, and submit. You can also open the remark sheet programmatically at any time.
 
-## How it works? 
-
-This SDK is used to submit AppRemark (Either it is bug/issue or any suggestion/feedback of your app).
-
-AppsOnAir offers a service to monitor your problems or app recommendations/improvements by taking screenshots of your apps when you shake your device.
-
-When you shake the device, it automatically takes screenshots of your apps. By modifying those app screenshots, users can draw attention to the specific problems or any app suggestions for enhancements.
-
-Users have the option to turn off shakeGesture. They can also manually open the "Add Remark" screen.
-
-#### To learn more about AppsOnAir AppRemark, please visit the [AppsOnAir](https://documentation.appsonair.com) website
+---
 
 ## Minimum Requirements
 
-- Android Gradle Plugin (AGP): Version 8.0.2 or higher
-- Kotlin: Version 1.7.10 or higher
-- Gradle: Version 8.0 or higher
+### Android
 
-### Android Setup
+| Tool | Minimum version |
+|------|----------------|
+| Android Gradle Plugin (AGP) | 9.0.1 |
+| Kotlin | 2.2.20 |
+| Gradle | 9.1.0 |
+| `minSdk` | 21 |
 
-Add meta-data to the app's AndroidManifest.xml file under the application tag.
+### iOS
 
->Make sure meta-data name is “AppsonairAppId”.
+Minimum deployment target: **iOS 15.0**
 
->Provide your application id in meta-data value.
+---
 
+## Android Setup
+
+### 1. App ID in AndroidManifest.xml
+
+Add the following `<meta-data>` inside the `<application>` tag:
 
 ```xml
-</application>
+<application>
     ...
     <meta-data
         android:name="AppsonairAppId"
-        android:value="********-****-****-****-************" />
+        android:value="XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX" />
 </application>
 ```
 
-Add below code to setting.gradle.
+### 2. JitPack repository
 
-```sh
+Add JitPack to `settings.gradle` (or `settings.gradle.kts`):
+
+```groovy
 pluginManagement {
-    ...
     repositories {
         google()
         mavenCentral()
@@ -52,12 +51,7 @@ pluginManagement {
         maven { url 'https://jitpack.io' }
     }
 }
-```
-
-Add below code to your root level build.gradle.
-
-```sh
-allprojects {
+dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
@@ -66,193 +60,244 @@ allprojects {
 }
 ```
 
-Add below code to your Launcher activity.
+### 3. TextureView rendering (required for screenshots)
 
->Add the following code because Fluter is preventing the SDK from capturing the current screen.
+Flutter's default `SurfaceView` uses hardware GPU rendering that cannot be captured by standard Android screenshot APIs, resulting in a black image. Switch to `TextureView` in your `MainActivity`:
 
 ```kotlin
+import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.android.RenderMode
 
-class MainActivity : FlutterActivity(){
-    override fun getRenderMode(): RenderMode {
-        return RenderMode.texture
-    }
+class MainActivity : FlutterActivity() {
+    override fun getRenderMode(): RenderMode = RenderMode.texture
 }
 ```
-## Requirements
 
-Minimum deployment target: **iOS 14.0**
+---
 
-### iOS Setup
+## iOS Setup
 
-Add your application ID in `Info.plist`:
+### 1. App ID in Info.plist
 
 ```xml
 <key>AppsonairAppId</key>
 <string>XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX</string>
 ```
 
-For more details on how to get your application ID, check this [URL](https://documentation.appsonair.com/MobileQuickstart/GettingStarted).
+For more details on obtaining your application ID, see the [AppsOnAir documentation](https://documentation.appsonair.com/MobileQuickstart/GettingStarted).
 
-Add the photo library permission to your `Info.plist`:
+### 2. Photo library permission in Info.plist
+
+Required for attaching screenshots to remarks:
 
 ```xml
 <key>NSPhotoLibraryUsageDescription</key>
-<string>$(PRODUCT_NAME) need permission to choose image from gallery for AppRemark feature.</string>
+<string>This app needs photo library access to attach screenshots to remarks.</string>
 ```
 
----
+### 3. Dependency manager
 
-### iOS Dependency Manager
+This plugin supports both **CocoaPods** and **Swift Package Manager (SPM)**. SPM requires Flutter 3.24.0 or higher.
 
-This plugin supports **both CocoaPods and Swift Package Manager (SPM)**. SPM support requires **Flutter 3.24.0 or higher**.
+#### Swift Package Manager (recommended)
 
-By default, CocoaPods is used. You can control which dependency manager your project uses by adding the following to your app's `pubspec.yaml`:
+Enable SPM globally:
 
-#### Option 1 — CocoaPods (default)
+```sh
+flutter config --enable-swift-package-manager
+```
 
-Use this if you want to always use CocoaPods regardless of any global Flutter setting:
+Then run `flutter pub get`. Flutter resolves `AppsOnAir-iOS-AppRemark v1.2.3` via SPM automatically — no additional Xcode configuration needed.
+
+Alternatively, enable per-project in `pubspec.yaml`:
 
 ```yaml
-# pubspec.yaml
 flutter:
   config:
-    # false → always uses CocoaPods (default)
-    enable-swift-package-manager: false
+    enable-swift-package-manager: true
 ```
 
-No other steps needed. Run:
+#### CocoaPods
 
 ```sh
 flutter pub get
 cd ios && pod install
 ```
 
-#### Option 2 — Swift Package Manager
-
-> Requires **Flutter ≥ 3.24.0**. SPM support on iOS is available starting from this version.
-
-Use this to opt into SPM and use `AppsOnAir-iOS-AppRemark` via Swift Package Manager:
-
-```yaml
-# pubspec.yaml
-flutter:
-  config:
-    # true → uses Swift Package Manager
-    enable-swift-package-manager: true
-```
-
-Then run:
-
-```sh
-flutter pub get
-```
-
-Flutter will automatically resolve `AppsOnAir-iOS-AppRemark v1.2.1` via SPM. No additional Xcode configuration is required.
-
-> **Note:** You can also enable SPM globally for all your Flutter projects (instead of per-project) by running:
-> ```sh
-> flutter config --enable-swift-package-manager
-> ```
-> In that case, you can remove the `config` block from `pubspec.yaml` entirely and Flutter will use SPM automatically.
-
-#### Summary
-
 | `enable-swift-package-manager` | Flutter version | Result |
 |:---:|:---:|:---|
-| `false` | any | **CocoaPods** — uses |
-| `true` | ≥ 3.24.0 | **SPM** — uses |
-| not set | any (global off) | **CocoaPods** — default behaviour |
-| not set | ≥ 3.24.0 (global on) | **SPM** — Flutter global setting applies |
+| `true` or global on | ≥ 3.24.0 | **SPM** |
+| `false` or global off | any | **CocoaPods** |
 
-> 💡 **Recommendation:** We recommend migrating to **Swift Package Manager** — it is Apple's official, actively maintained dependency manager and receives updates first.
+> **Recommendation:** Use Swift Package Manager — it is Apple's actively maintained dependency manager and receives updates first.
 
 ---
 
+## Usage
 
-## Example
+### Initialize
 
-Follow this step to add AppRemark using shakeGesture with the default theme of "Add Remark" screen.
-
-```dart
- @override
-  void initState() {
-    super.initState();
-    Future.delayed(const Duration(milliseconds: 100), () async {
-      await AppRemarkService.initialize(context,
-        onRemarkResponse: (result) {
-        // Handle response here
-       },
-      );
-    });
-  }
-```
-
-Follow this step to add AppRemark using shakeGesture with the custom theme of "Add Remark" screen.
-
-Here users can customize the theme of "Add Remark" screen according to their app theme by passing "options" inform of Map, which contains key-value pair of user's theme data.
-
-Users have to pass given keys into "options". Using "options", this SDK will set the theme of "Add Remark" screen.
-
->Make sure keys are same as below.
-
-| Key                     | DataType | Value                       | Description                    |
-| :---------------------- | :------- | :-------------------------- | :----------------------------- |
-| `pageBackgroundColor`   | `String` | `"#E8F1FF"`               | Set page background color      |
-| `appBarBackgroundColor` | `String` | `"#E8F1FF"`               | Set appbar background color    |
-| `appBarTitleText`       | `String` | `"Add Remark"`              | Set appbar title text          |
-| `appBarTitleColor`      | `String` | `"#000000"`               | Set appbar title color         |
-| `remarkTypeLabelText`   | `String` | `"Remark Type"`             | Set remark type label text     |
-| `descriptionLabelText`  | `String` | `"Description"`             | Set description label text     |
-| `descriptionHintText`   | `String` | `"Add description here..."` | Set description hint text      |
-| `descriptionMaxLength`  | `int`    | `255`                       | Set description max length     |
-| `buttonText`            | `String` | `"Submit"`                  | Set button text                |
-| `buttonTextColor`       | `String` | `"#FFFFFF"`               | Set button text color          |
-| `buttonBackgroundColor` | `String` | `"#007AFF"`               | Set button background color    |
-| `labelColor`            | `String` | `"#000000"`               | Set textfield label color      |
-| `hintColor`             | `String` | `"#B1B1B3"`               | Set textfield hint color       |
-| `inputTextColor`        | `String` | `"#000000"`               | Set textfield input text color |
-
+Call `initialize` once, typically in `initState`. It registers the shake gesture listener and sets up the remark sheet.
 
 ```dart
-AppRemarkService.initialize(
+import 'package:appsonair_flutter_appremark/app_remark_service.dart';
+
+@override
+void initState() {
+  super.initState();
+  AppRemarkService.initialize(
     context,
-    options: {
-        'pageBackgroundColor': '#FFC0CB',
-        'descriptionMaxLength': 25,
+    onRemarkResponse: (result) {
+      // Called after each remark is submitted
+      debugPrint('AppRemark response: $result');
     },
-    onRemarkResponse: (result) {
-    // Handle response here
-     },
-);
+  );
+}
 ```
 
-"shakeGestureEnable" is set to true by default, allowing the device to capture your current screen when it shakes. If it is false, the device shake's auto-capture screen will be disabled.
+### Initialize with custom shake sensitivity
+
+Control how easy it is to trigger the shake gesture:
 
 ```dart
 AppRemarkService.initialize(
-    context,
-    shakeGestureEnable: false,
-    onRemarkResponse: (result) {
-     // Handle response here
-     },
+  context,
+  shakeSensitivity: ShakeSensitivity.high,
+  onRemarkResponse: (result) { },
 );
 ```
 
-Follow this step to open AppRemark screen manually,
+#### ShakeSensitivity values
+
+| Value | Description |
+|-------|-------------|
+| `ShakeSensitivity.veryLow` | Very hard, deliberate shake required |
+| `ShakeSensitivity.low` | Firm shake required |
+| `ShakeSensitivity.medium` | Normal shake (default) |
+| `ShakeSensitivity.high` | Light shake triggers feedback |
+| `ShakeSensitivity.veryHigh` | Any motion triggers feedback |
+
+### Initialize with custom theme
+
+Pass `options` as a `Map<String, dynamic>` to override the remark sheet appearance:
 
 ```dart
-AppRemarkService.addRemark(context);
+AppRemarkService.initialize(
+  context,
+  options: {
+    'pageBackgroundColor':   '#FFFFFF',
+    'appBarBackgroundColor': '#007AFF',
+    'appBarTitleText':       'Send Feedback',
+    'appBarTitleColor':      '#FFFFFF',
+    'buttonText':            'Submit',
+    'buttonTextColor':       '#FFFFFF',
+    'buttonBackgroundColor': '#007AFF',
+    'labelColor':            '#000000',
+    'hintColor':             '#B1B1B3',
+    'inputTextColor':        '#000000',
+    'remarkTypeLabelText':   'Remark Type',
+    'descriptionLabelText':  'Description',
+    'descriptionHintText':   'Describe the issue…',
+    'descriptionMaxLength':  500,
+  },
+  onRemarkResponse: (result) { },
+);
 ```
 
-Follow this step to send your customize payload, which you want to save in order to monitor your app.
+#### Theme options reference
 
-Users have to pass "extraPayload" inform of Map, which contains key-value pair of user's additional meta-data.
+| Key | Type | Default | Description |
+|:----|:-----|:--------|:------------|
+| `pageBackgroundColor` | `String` | `"#FFFFFF"` | Page background color |
+| `appBarBackgroundColor` | `String` | `"#FFFFFF"` | App bar background color |
+| `appBarTitleText` | `String` | `"Add Remark"` | App bar title |
+| `appBarTitleColor` | `String` | `"#000000"` | App bar title color |
+| `remarkTypeLabelText` | `String` | `"Remark Type"` | Remark type field label |
+| `descriptionLabelText` | `String` | `"Description"` | Description field label |
+| `descriptionHintText` | `String` | `"Add description here..."` | Description placeholder |
+| `descriptionMaxLength` | `int` | `255` | Max characters in description |
+| `buttonText` | `String` | `"Submit"` | Submit button label |
+| `buttonTextColor` | `String` | `"#FFFFFF"` | Submit button text color |
+| `buttonBackgroundColor` | `String` | `"#007AFF"` | Submit button background |
+| `labelColor` | `String` | `"#000000"` | Field label color |
+| `hintColor` | `String` | `"#B1B1B3"` | Field hint text color |
+| `inputTextColor` | `String` | `"#000000"` | Field input text color |
+
+### Disable shake gesture
+
+To disable automatic shake detection and rely solely on `addRemark`:
+
+```dart
+AppRemarkService.initialize(
+  context,
+  shakeGestureEnable: false,
+  onRemarkResponse: (result) { },
+);
+```
+
+### Open remark sheet manually
+
+```dart
+await AppRemarkService.addRemark(context);
+```
+
+### Attach custom metadata
+
+Send additional key-value data with every remark. Call this any time before or after `initialize` — the payload is merged server-side.
 
 ```dart
 await AppRemarkService.setAdditionalMetaData(extraPayload: {
-      "userName": "USER_NAME",
-      "userId": "USER_ID"});
+  'userId':    'USER_ID',
+  'userName':  'USER_NAME',
+  'userEmail': 'user@example.com',
+  'screen':    'CheckoutScreen',
+});
 ```
 
-Note: Call the setAdditionalMetaData method whenever you want to add or update details
+---
+
+## Full example
+
+```dart
+import 'package:appsonair_flutter_appremark/app_remark_service.dart';
+import 'package:flutter/material.dart';
+
+class MyScreen extends StatefulWidget {
+  const MyScreen({super.key});
+
+  @override
+  State<MyScreen> createState() => _MyScreenState();
+}
+
+class _MyScreenState extends State<MyScreen> {
+  @override
+  void initState() {
+    super.initState();
+    AppRemarkService.initialize(
+      context,
+      shakeSensitivity: ShakeSensitivity.medium,
+      options: const {},
+      onRemarkResponse: (result) {
+        debugPrint('Remark submitted: $result');
+      },
+    );
+    AppRemarkService.setAdditionalMetaData(extraPayload: {
+      'userId':   'USER_ID',
+      'userName': 'USER_NAME',
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('My App')),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () => AppRemarkService.addRemark(context),
+          child: const Text('Send Feedback'),
+        ),
+      ),
+    );
+  }
+}
+```

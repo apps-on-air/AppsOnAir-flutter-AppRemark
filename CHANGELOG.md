@@ -1,3 +1,10 @@
+## 0.3.2
+
+* Added optional `shakeSensitivity` parameter to `initialize()` (`veryLow`, `low`, `medium`, `high`, `veryHigh`; default `medium`)
+* Native dependencies upgrade
+* Updated minimum Dart SDK requirement to 3.13.7 (security patch)
+* Documentation updated
+
 ## 0.3.1
 
 * iOS dependency upgrade
