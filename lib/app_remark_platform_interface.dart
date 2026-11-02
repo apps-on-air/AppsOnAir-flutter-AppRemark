@@ -3,6 +3,17 @@ import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import 'app_remark_method_channel.dart';
 
+/// Controls how hard the device must be shaken to open the feedback screen.
+///
+/// | Value      | Description                                          |
+/// |:-----------|:-----------------------------------------------------|
+/// | veryLow    | Needs a very hard, deliberate shake                  |
+/// | low        | Needs a firm shake, useful for apps used on the move |
+/// | medium     | Default                                              |
+/// | high       | Triggers on a light shake                            |
+/// | veryHigh   | Triggers on a very light shake, useful for testers   |
+enum ShakeSensitivity { veryLow, low, medium, high, veryHigh }
+
 /// The platform interface for AppRemark.
 ///
 /// This allows communication between the platform-specific implementation
@@ -41,6 +52,7 @@ abstract class AppRemarkPlatformInterface extends PlatformInterface {
   Future<void> initialize(
     BuildContext context, {
     bool shakeGestureEnable = true,
+    ShakeSensitivity shakeSensitivity = ShakeSensitivity.medium,
     Map<String, dynamic> options = const {},
     required Function(Map<String, dynamic>) onRemarkResponse,
   }) {

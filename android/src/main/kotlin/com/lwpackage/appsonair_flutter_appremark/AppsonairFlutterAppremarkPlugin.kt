@@ -2,6 +2,7 @@ package com.lwpackage.appsonair_flutter_appremark
 
 import android.app.Activity
 import android.util.Log
+import com.appsonair.appremark.enums.ShakeSensitivity
 import com.appsonair.appremark.interfaces.RemarkResponse
 
 import com.appsonair.appremark.services.AppRemarkService
@@ -27,6 +28,33 @@ class AppsonairFlutterAppremarkPlugin : FlutterPlugin, MethodCallHandler, Activi
     private var eventSink: EventChannel.EventSink? = null
     private val mainHandler = Handler(Looper.getMainLooper())
 
+    // Stored init params so AppRemarkService can be re-initialized on activity resume
+    private var initialized = false
+    private var storedShakeEnable = true
+    private var storedOptions: Map<String, Any> = emptyMap()
+    private var storedSensitivity = ShakeSensitivity.MEDIUM
+
+    private val lifecycleCallbacks = object : android.app.Application.ActivityLifecycleCallbacks {
+        override fun onActivityResumed(a: android.app.Activity) {
+            if (initialized && ::activity.isInitialized && a == activity) {
+                AppRemarkService.initialize(
+                    activity,
+                    shakeGestureEnable = storedShakeEnable,
+                    options = storedOptions,
+                    shakeSensitivity = storedSensitivity,
+                ) { result ->
+                    mainHandler.post { eventSink?.success(result.toString()) }
+                }
+            }
+        }
+        override fun onActivityCreated(a: android.app.Activity, b: android.os.Bundle?) {}
+        override fun onActivityStarted(a: android.app.Activity) {}
+        override fun onActivityPaused(a: android.app.Activity) {}
+        override fun onActivityStopped(a: android.app.Activity) {}
+        override fun onActivitySaveInstanceState(a: android.app.Activity, b: android.os.Bundle) {}
+        override fun onActivityDestroyed(a: android.app.Activity) {}
+    }
+
     override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         channel = MethodChannel(flutterPluginBinding.binaryMessenger, "appsOnAirAppRemark")
         channel.setMethodCallHandler(this)
@@ -41,45 +69,63 @@ class AppsonairFlutterAppremarkPlugin : FlutterPlugin, MethodCallHandler, Activi
                 eventSink = null
             }
         })
+
+        (flutterPluginBinding.applicationContext as? android.app.Application)
+            ?.registerActivityLifecycleCallbacks(lifecycleCallbacks)
     }
 
     override fun onMethodCall(call: MethodCall, result: Result) {
-        if (call.method == "initializeAppRemark") {
-            var shakeGestureEnable: Boolean =
-                call.argument<Boolean>("shakeGestureEnable") as Boolean
+        when (call.method) {
+            "initializeAppRemark" -> {
+                val shakeGestureEnable: Boolean =
+                    call.argument<Boolean>("shakeGestureEnable") as Boolean
 
-            var options: Map<String, Any> =
-                call.argument<Map<String, Any>>("options") as Map<String, Any>
+                val options: Map<String, Any> =
+                    call.argument<Map<String, Any>>("options") as Map<String, Any>
 
-            AppRemarkService.initialize(
-                activity,
-                shakeGestureEnable = shakeGestureEnable,
-                options = options,
+                val shakeSensitivity = when (call.argument<String>("shakeSensitivity")) {
+                    "veryLow"  -> ShakeSensitivity.VERY_LOW
+                    "low"      -> ShakeSensitivity.LOW
+                    "medium"   -> ShakeSensitivity.MEDIUM
+                    "high"     -> ShakeSensitivity.HIGH
+                    "veryHigh" -> ShakeSensitivity.VERY_HIGH
+                    else       -> ShakeSensitivity.MEDIUM
+                }
 
-            ){ result ->
-                mainHandler.post {
-                    eventSink?.success(result.toString())
+                storedShakeEnable = shakeGestureEnable
+                storedOptions = options
+                storedSensitivity = shakeSensitivity
+                initialized = true
+
+                AppRemarkService.initialize(
+                    activity,
+                    shakeGestureEnable = shakeGestureEnable,
+                    options = options,
+                    shakeSensitivity = shakeSensitivity,
+                ) { result ->
+                    mainHandler.post {
+                        eventSink?.success(result.toString())
+                    }
                 }
             }
-        } else if (call.method == "addAppRemark") {
-            AppRemarkService.addRemark(
-                activity
-            )
-        }else if (call.method == "setAdditionalMetaData") {
-            var extraPayload: Map<String, Any> =
-                call.argument<Map<String, Any>>("extraPayload") as Map<String, Any>
+            "addAppRemark" -> {
+                AppRemarkService.addRemark(activity)
+            }
+            "setAdditionalMetaData" -> {
+                val extraPayload: Map<String, Any> =
+                    call.argument<Map<String, Any>>("extraPayload") as Map<String, Any>
 
-            AppRemarkService.setAdditionalMetaData(
-                extraPayload,
-            )
-        } else {
-            result.notImplemented()
+                AppRemarkService.setAdditionalMetaData(extraPayload)
+            }
+            else -> result.notImplemented()
         }
     }
 
     override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
         channel.setMethodCallHandler(null)
         eventChannel.setStreamHandler(null)
+        (binding.applicationContext as? android.app.Application)
+            ?.unregisterActivityLifecycleCallbacks(lifecycleCallbacks)
     }
 
     override fun onDetachedFromActivity() {

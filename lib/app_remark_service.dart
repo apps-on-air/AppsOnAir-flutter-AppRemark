@@ -1,6 +1,9 @@
 import 'package:appsonair_flutter_appremark/app_remark_platform_interface.dart';
 import 'package:flutter/material.dart';
 
+export 'package:appsonair_flutter_appremark/app_remark_platform_interface.dart'
+    show ShakeSensitivity;
+
 class AppRemarkService {
   /// [shakeGestureEnable] controls the shake behaviour in your app
   ///
@@ -26,12 +29,14 @@ class AppRemarkService {
   static Future<void> initialize(
     BuildContext context, {
     bool shakeGestureEnable = true,
+    ShakeSensitivity shakeSensitivity = ShakeSensitivity.medium,
     Map<String, dynamic> options = const {},
     required Function(Map<String, dynamic>) onRemarkResponse,
   }) async {
     AppRemarkPlatformInterface.instance.initialize(
       context,
       shakeGestureEnable: shakeGestureEnable,
+      shakeSensitivity: shakeSensitivity,
       options: options,
       onRemarkResponse: onRemarkResponse,
     );

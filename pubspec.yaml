@@ -1,13 +1,13 @@
 name: appsonair_flutter_appremark
-description: AppsOnAir AppRemark flutter sdk allows you to capture current screen on device shake directly through AppsOnAir.
-version: 0.3.1
+description: AppsOnAir AppRemark SDK for Flutter — capture in-app feedback and bug reports via shake gesture or manual trigger.
+version: 0.3.2
 
-#homepage:
+homepage: https://appsonair.com
 repository: https://github.com/apps-on-air/AppsOnAir-flutter-AppRemark
 
 
 environment:
-  sdk: '>=3.2.0 <4.0.0'
+  sdk: '>=3.13.7 <4.0.0'
   flutter: '>=3.16.0'
 
 dependencies:
