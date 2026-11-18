@@ -1,3 +1,8 @@
+## 0.4.0
+
+* Native core SDK dependency upgrade (breaking changes in core).
+* Updated minimum Flutter version to 3.47.8 (security patch — HTTPS certificate validation fix)
+
 ## 0.3.2
 
 * Added optional `shakeSensitivity` parameter to `initialize()` (`veryLow`, `low`, `medium`, `high`, `veryHigh`; default `medium`)

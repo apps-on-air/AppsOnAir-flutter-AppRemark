@@ -107,7 +107,7 @@ Enable SPM globally:
 flutter config --enable-swift-package-manager
 ```
 
-Then run `flutter pub get`. Flutter resolves `AppsOnAir-iOS-AppRemark v1.2.3` via SPM automatically — no additional Xcode configuration needed.
+Then run `flutter pub get`. Flutter resolves `AppsOnAir-iOS-AppRemark` via SPM automatically — no additional Xcode configuration needed.
 
 Alternatively, enable per-project in `pubspec.yaml`:
 
