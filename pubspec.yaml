@@ -1,6 +1,6 @@
 name: appsonair_flutter_appremark
 description: AppsOnAir AppRemark SDK for Flutter — capture in-app feedback and bug reports via shake gesture or manual trigger.
-version: 0.4.0
+version: 0.4.1
 
 homepage: https://appsonair.com
 repository: https://github.com/apps-on-air/AppsOnAir-flutter-AppRemark

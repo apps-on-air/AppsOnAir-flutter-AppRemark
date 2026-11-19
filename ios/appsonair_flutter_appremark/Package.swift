@@ -4,7 +4,7 @@ import PackageDescription
 let package = Package(
     name: "appsonair_flutter_appremark",
     platforms: [
-        .iOS("14.0")
+        .iOS("15.0")
     ],
     products: [
         .library(name: "appsonair-flutter-appremark", targets: ["appsonair_flutter_appremark"])

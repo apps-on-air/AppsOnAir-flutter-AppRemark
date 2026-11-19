@@ -4,7 +4,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'appsonair_flutter_appremark'
-  s.version          = '0.4.0'
+  s.version          = '0.4.1'
   s.summary          = 'AppsOnAir AppRemark flutter sdk allows you to capture current screen on device shake.'
   s.description      = <<-DESC
 AppsOnAir AppRemark flutter sdk allows you to capture current screen on device shake directly through AppsOnAir.
